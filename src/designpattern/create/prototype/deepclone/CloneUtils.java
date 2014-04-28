@@ -19,6 +19,7 @@ public class CloneUtils {
 	
 	@SuppressWarnings("unchecked")
 	public static <T> T cloneObj(T o) throws IOException, ClassNotFoundException{
+		long begin = System.currentTimeMillis();
 		T cloneObj = null;
 		ByteArrayInputStream bin = null;
 		ByteArrayOutputStream bout = null;
@@ -32,6 +33,8 @@ public class CloneUtils {
 		ObjectInputStream ois = new ObjectInputStream(bin);
 		cloneObj = (T)ois.readObject();
 		ois.close();
+		long end = System.currentTimeMillis();
+		System.out.println("深度clone执行时间:"+(end-begin));
 		return cloneObj;
 	}
 

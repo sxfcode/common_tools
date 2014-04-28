@@ -1,7 +1,6 @@
 package designpattern.create.prototype;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,7 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 import designpattern.create.prototype.deepclone.CloneUtils;
-import designpattern.create.prototype.lightclone.CustomObj;
+import designpattern.create.prototype.deepclone.DeepCustomObj;
+import designpattern.create.prototype.deepclone.DeepParentObj;
+import designpattern.create.prototype.lightclone.LightCustomObj;
+import designpattern.create.prototype.lightclone.LightParentObj;
 
 /**
  * The Class PrototypeObj. 原型模式 ==================================
@@ -31,12 +33,10 @@ import designpattern.create.prototype.lightclone.CustomObj;
  * 在复制过程之外。
  * 
  * 关于java的clone java对象中只要各字段为实现cloneable接口，即可自动对该对象实现深度copy
- * ================================= ===================================
- * 使用场景
+ * ================================= =================================== 使用场景
  * 有的时候我们可能在实际的项目中需要一个对象在某个状态下的副本，这个前提很重要，这点怎么理解呢，
  * 例如有的时候我们需要对比一个对象过处理后的状态和处理前的状态是否发生过改变，
- * 可能我们就需要在执行某段处理之前，克隆这个对象此时状态的副本，然后等执行后的状态进行相应的对比，
- * 这样的应用在项目中也是经常会出现的。
+ * 可能我们就需要在执行某段处理之前，克隆这个对象此时状态的副本，然后等执行后的状态进行相应的对比， 这样的应用在项目中也是经常会出现的。
  * 
  * 
  * @date 2014-4-24 14:06:28
@@ -44,155 +44,101 @@ import designpattern.create.prototype.lightclone.CustomObj;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class PrototypeObj implements Cloneable,Serializable {
+public class PrototypeObj {
 
-	private int id;
-	private String name;
-	private List<String> data;
-	private List comData;
-	private Date createTime;
-	private Long price;
-	private CustomObj customObj;
-
-	public int getId() {
-		return id;
+	public static void main(String[] args) throws IOException,
+			ClassNotFoundException {
+		//deepClone();
+		 lightClone();
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public List<String> getData() {
-		return data;
-	}
-
-	public void setData(List<String> data) {
-		this.data = data;
-	}
-
-	public List getComData() {
-		return comData;
-	}
-
-	public void setComData(List comData) {
-		this.comData = comData;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public Long getPrice() {
-		return price;
-	}
-
-	public void setPrice(Long price) {
-		this.price = price;
-	}
-
-	public CustomObj getCustomObj() {
-		return customObj;
-	}
-
-	public void setCustomObj(CustomObj customObj) {
-		this.customObj = customObj;
-	}
-
-	@Override
-	public String toString() {
-		return "PrototypeObj [id=" + id + ", name=" + name + ", data=" + data
-				+ ", comData=" + comData + ", createTime=" + createTime
-				+ ", price=" + price + ", customObj=" + customObj + "]";
-	}
-
-	public String toString2() {
-		return "PrototypeObj [id=" + id + ", name=" + name.hashCode()
-				+ ", data=" + data.hashCode() + ", comData="
-				+ comData.hashCode() + ", createTime=" + createTime.hashCode()
-				+ ", price=" + price.hashCode() + ", customObj="
-				+ customObj.hashCode() + "]";
-	}
-
-	/**
-	 * Instantiates a new PrototypeObj.
-	 */
-	public PrototypeObj(int a, String b) {
-		this.id = a;
-		this.name = b;
-	}
-
-	public PrototypeObj clone() {
-		PrototypeObj clone = null;
-		try {
-			clone = (PrototypeObj) super.clone();
-		} catch (CloneNotSupportedException e) {
-			// 首先打印异常，然后将异常抛出给外层。
-			e.printStackTrace();
-			throw new RuntimeException("clone异常");
-		}
-
-		return clone;
-	}
-
-	public static void main(String[] args) throws IOException, ClassNotFoundException {
+	@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
+	public static void deepClone() throws IOException, ClassNotFoundException {
+		// 通过修改克隆对象的属性值，检查被克隆对象的对应值是否被修改，来鉴定是否是深度clone.
+		// hashCode不能作为内存地址的对应，因为已经被改写过了。
+		// 泛型集合
 		List<String> data = new ArrayList<String>();
 		data.add("test1");
 		data.add("test2");
+		// 非泛型集合及复杂对象。
 		List comData = new ArrayList();
 		Map m = new HashMap();
 		m.put("1", "2");
 		comData.add("haha");
 		comData.add(m);
 
-		CustomObj cus = new CustomObj();
+		// 自定义对象
+		DeepCustomObj cus = new DeepCustomObj();
 		cus.setUserName("CustomObj");
 
-		PrototypeObj a = new PrototypeObj(1, "test");
+		// 原始对象
+		DeepParentObj a = new DeepParentObj(1, "deepa", data, comData,
+				new Date(), 2L, cus);
 		a.setData(data);
 		a.setComData(comData);
 		a.setCreateTime(new Date());
 		a.setCustomObj(cus);
-		a.setPrice(new Long(11L));
-//		PrototypeObj b = a.clone();
-		PrototypeObj b = CloneUtils.cloneObj(a);	
+		a.setPrice(new Long(1L));
+		a.setName("name a");
+
+		// 克隆对象
+		DeepParentObj b = CloneUtils.cloneObj(a);
+		// 修改克隆对象
+		b.setId(2);
+		b.getComData().add("testb");
+		b.getCreateTime().setHours(10);
+		b.getCustomObj().setUserName("CustomObj by b");
+		b.getData().add("testb");
+		b.setName("name b");
+		b.setPrice(2L);
+
 		System.out.println(a.toString());
 		System.out.println(b.toString());
-		System.out.println(a.hashCode());
-		System.out.println(b.hashCode());
-		System.out.println(a.toString2());
-		System.out.println(b.toString2());
-		System.out.println(PrototypeObj.checkClone(a, b));
-
-		String s1 = "test1";
-		String s2 = s1;
-
-		System.out.println(s1.hashCode());
-		System.out.println(s2.hashCode());
-		System.out.println(s1);
 
 	}
 
-	public static boolean checkClone(Object a, Object b) {
-		boolean result = false;
-		System.out.println((a != b) + "," + (a.getClass() == b.getClass())
-				+ "," + (a.equals(b)));
-		if (a != b && a.getClass() == b.getClass() && a.equals(b)) {
-			result = true;
-		}
-		return result;
-	}
+	@SuppressWarnings({ "rawtypes", "deprecation", "unchecked" })
+	public static void lightClone() throws IOException, ClassNotFoundException {
+		// 通过修改克隆对象的属性值，检查被克隆对象的对应值是否被修改，来鉴定是否是深度clone.
+		// hashCode不能作为内存地址的对应，因为已经被改写过了。
+		// 泛型集合
+		List<String> data = new ArrayList<String>();
+		data.add("test1");
+		data.add("test2");
+		// 非泛型集合及复杂对象。
+		List comData = new ArrayList();
+		Map m = new HashMap();
+		m.put("1", "2");
+		comData.add("haha");
+		comData.add(m);
 
+		// 自定义对象
+		LightCustomObj cus = new LightCustomObj();
+		cus.setUserName("CustomObj");
+
+		// 原始对象
+		LightParentObj a = new LightParentObj(1, "deepa", data, comData,
+				new Date(), 2L, cus);
+		a.setData(data);
+		a.setComData(comData);
+		a.setCreateTime(new Date());
+		a.setCustomObj(cus);
+		a.setPrice(new Long(1L));
+		a.setName("name a");
+
+		// 克隆对象
+		LightParentObj b = a.clone();
+		// 修改克隆对象
+		b.setId(2);
+		b.getComData().add("testb");
+		b.getCreateTime().setHours(10);
+		b.getCustomObj().setUserName("CustomObj by b");
+		b.getData().add("testb");
+		b.setName("name b");
+		b.setPrice(2L);
+
+		System.out.println(a.toString());
+		System.out.println(b.toString());
+
+	}
 }
-
