@@ -2,6 +2,7 @@ package designpattern.struct.facade;
 
 /**
  * The Class FacadeExample.
+ * 外观模式
  *  为子系统中的一组接口提供一个统一接口。
  * Facade模式定义了一个高层接口，这个接口使得这子系统更容易使用。
  * 
@@ -29,5 +30,4 @@ public class FacadeExample {
 		fa.methodBuinessA();
 		fa.methodBuinessB();
 	}
-
 }
