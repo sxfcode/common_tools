@@ -17,7 +17,7 @@ package designpattern.struct.decorator;
  * @version 1.0
  * @since jdk 1.6,common_tools_trunk 1.0
  */
-public class DecoratorExample {
+public class ZExample {
 	
 	public static void main(String[] args) {
 		Project em = new Employe();// 代码工人

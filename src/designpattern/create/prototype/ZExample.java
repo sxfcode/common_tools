@@ -44,7 +44,7 @@ import designpattern.create.prototype.lightclone.LightParentObj;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class PrototypeObj {
+public class ZExample {
 
 	public static void main(String[] args) throws IOException,
 			ClassNotFoundException {

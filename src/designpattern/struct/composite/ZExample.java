@@ -20,7 +20,7 @@ package designpattern.struct.composite;
  * @version 1.0
  * @since jdk 1.6,common_tools_trunk 1.0
  */
-public class CompositeExample {
+public class ZExample {
 	public static void main(String[] args) {
 		SFCompanyHead head = new SFCompanyHead("总公司", 1);
 		SFCompanyHead head21 = new SFCompanyHead("北京分公司", 2);

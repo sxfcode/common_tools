@@ -18,7 +18,7 @@ import designpattern.struct.bridge.parent.HuaWeiController;
  * @version 1.0
  * @since jdk 1.6,common_tools_trunk 1.0
  */
-public class BridgeExample {
+public class ZExample {
 	public static void main(String[] args) {
 		TV tv = new SonyTV();
 		Controller ct = new HuaWeiController(tv);

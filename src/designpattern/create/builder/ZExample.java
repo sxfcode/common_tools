@@ -29,7 +29,7 @@ import designpattern.create.builder.product.Car;
  * @version 1.0
  * @since jdk 1.6,common_tools_trunk 1.0
  */
-public class BuilderExample {
+public class ZExample {
 	
 	public static void main(String[] args) {
 		CarDirector director = new CarDirector(new CarBuilderBaoMa());

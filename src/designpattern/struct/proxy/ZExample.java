@@ -29,7 +29,7 @@ package designpattern.struct.proxy;
  * @version 1.0
  * @since jdk 1.6,common_tools_trunk 1.0
  */
-public class ProxyExample {
+public class ZExample {
 	public static void main(String[] args) {
 		ProxyObj proxy = new ProxyObj(new RealObj());
 		proxy.dance();

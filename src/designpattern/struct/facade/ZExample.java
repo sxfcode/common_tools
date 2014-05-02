@@ -23,7 +23,7 @@ package designpattern.struct.facade;
  * @version 1.0
  * @since jdk 1.6,common_tools_trunk 1.0
  */
-public class FacadeExample {
+public class ZExample {
 	public static void main(String[] args) {
 		// 通过外观接口来实现对子系统的访问,而不是直接访问子系统。
 		Facade fa = new Facade();

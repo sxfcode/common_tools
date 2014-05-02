@@ -33,7 +33,7 @@ package designpattern.struct.flyweight;
  * @version 1.0
  * @since jdk 1.6,common_tools_trunk 1.0
  */
-public class FlyWeightExample {
+public class ZExample {
 	public static void main(String[] args) {
 		DrivingSchool sc = DrivingSchool.getInstance();
 		Car c1 = sc.pickCar("京A001");
