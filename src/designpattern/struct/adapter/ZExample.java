@@ -17,7 +17,7 @@ import designpattern.struct.adapter.implements2.PS2ToUSB2;
  * @version 1.0
  * @since jdk 1.6,common_tools_trunk 1.0
  */
-public class AdapterExample {
+public class ZExample {
 	public static void main(String[] args) {
 		// 1.我有一个ps口
 		PS2Port ps2port = new PS2Port() {
