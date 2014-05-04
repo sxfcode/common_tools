@@ -35,11 +35,13 @@ public class ComSort {
 	public static int[] combSort(int[] sourceArray) {
 		// 整个数组是否排序完成
 		boolean sorted = false;
+		//int step = (int) Math.floor(sourceArray.length/1.3f);
 		int step = sourceArray.length;
 		while (!sorted) {
 			sorted = true;
 			// 间距递减
 			step = (int) Math.floor(step/1.3f);
+			System.out.println(step);
 			// 进行比较和交换
 			for (int i = 0; i < sourceArray.length&&(i+step<sourceArray.length); i++) {
 				// 发现需要交换的元素
@@ -51,6 +53,11 @@ public class ComSort {
 					sorted = false;
 				}
 			}
+			
+			for (int i = 0; i < sourceArray.length; i++) {
+				//System.out.print(sourceArray[i]+",");
+			}
+			//System.out.println();
 		}
 		return sourceArray;
 	}
