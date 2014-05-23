@@ -57,7 +57,7 @@ public class MergeSort {
 		int rightIndex = 0;
 		int resultIndex = 0;
 		while (leftIndex <= left.length && rightIndex <= right.length) {
-			// 某一组数据已经比较完毕,则把另一组剩下的数据直接放到结果集合中
+			// 某一组数据已经比较完毕,则把另一组剩下的数据直接放到结果集合中,因为未比较的元素都比前一组大，并且是有序的
 			if (leftIndex == left.length) {
 				while (resultIndex < result.length) {
 					result[resultIndex] = right[rightIndex];
