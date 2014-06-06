@@ -1,5 +1,7 @@
 package algorithm.sort.change;
 
+import algorithm.sort.Sort;
+
 /**
  * The Class QuickSort. 快速排序 快速排序（Quicksort）是对冒泡排序的一种改进。
  * 其性能提升主要在于跨越式的交换元素，减少了元素比较次数。
@@ -14,7 +16,12 @@ package algorithm.sort.change;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class QuickSort {
+public class QuickSort implements Sort  {
+	
+	public int[] sort(int[] sourceArray) {
+		QuickSort.quickSortInRe(sourceArray,0,sourceArray.length-1);
+		return sourceArray;
+	}
 	
 	
 	/**

@@ -1,5 +1,7 @@
 package algorithm.sort.change;
 
+import algorithm.sort.Sort;
+
 
 /**
  * The Class OddEvenSort.
@@ -22,7 +24,11 @@ package algorithm.sort.change;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class OddEvenSort {
+public class OddEvenSort implements Sort {
+	
+	public int[] sort(int[] sourceArray) {
+		return OddEvenSort.oddEvenSort(sourceArray);
+	}
 
 	/**
 	 * oddEvenSort.
@@ -59,16 +65,6 @@ public class OddEvenSort {
 			}
 		}
 		return sourceArray;
-	}
-	
-	public static void main(String[] args) {
-		int[] sourceArray = new int[]{1,10,11,12,13,9,8,7,6};
-		//int[] sourceArray = new int[]{8,7,6,5,4,3,2,1,};
-		//int[] sourceArray = new int[]{1,8,9,11,4,3,2};
-		int[] targetArray = OddEvenSort.oddEvenSort(sourceArray);
-		for (int i = 0; i < targetArray.length; i++) {
-			System.out.print(targetArray[i]+",");
-		}
 	}
 
 }

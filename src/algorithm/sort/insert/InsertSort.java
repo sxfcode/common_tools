@@ -1,9 +1,13 @@
 package algorithm.sort.insert;
 
+import algorithm.sort.Sort;
+
 /**
  * The Class InsertSort. 
  * 插入排序算法。
  * 插入排序的算法核心是插入，即顺序从原始数据中获取一个元素，将其插入到输出数据中的有序的位置。
+ * 
+ * 插入排序思路简单，只是实现时在调整元素位置时需要仔细小心处理。
  * 
  * 插入排序的基本操作就是将一个数据插入到已经排好序的有序数据中，从而得到一个新的、个数加一的有序数据，
  * 算法适用于少量数据的排序，时间复杂度为O(n^2)。
@@ -43,7 +47,14 @@ package algorithm.sort.insert;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class InsertSort {
+public class InsertSort implements Sort{
+	
+
+	@Override
+	public int[] sort(int[] sourceArray) {
+		return InsertSort.insertSort(sourceArray);
+	}
+	
 	
 	/**
 	 * 插入排序
@@ -130,14 +141,5 @@ public class InsertSort {
 			}
 		}
 		return sortedArray;
-	}
-	public static void main(String[] args) {
-		int[] sourceArray = new int[]{1,4,7,3,4,5,7,8,9,11,20,50,8,2};
-		//int[] sourceArray = new int[]{8,7,6,5,4,3,2,1,};
-	   // int[] sourceArray = new int[]{4,3,2,1};
-		int[] targetArray = InsertSort.insertSort(sourceArray);
-		for (int i = 0; i < targetArray.length; i++) {
-			System.out.println(targetArray[i]);
-		}
 	}
 }

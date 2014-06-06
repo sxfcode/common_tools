@@ -1,12 +1,13 @@
 package algorithm.sort.change;
 
-import java.util.ArrayList;
-import java.util.List;
+import algorithm.sort.Sort;
 
 /**
  * The Class GnomeSort.
  *  侏儒排序，又叫地精排序。
  *  该算法是受园丁侏儒排花盆的过程启发。
+ *  
+ *  侏儒排序类似反向冒泡，但冒泡时并没有遍历整个数组,
  *  
  *  号称最简单的排序算法,
  *  只有一层循环,默认情况下前进冒泡,一旦遇到冒泡的情况发生就往回冒,  直到把这个数字放好为止
@@ -16,7 +17,11 @@ import java.util.List;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class GnomeSort {
+public class GnomeSort implements Sort {
+	
+	public int[] sort(int[] sourceArray) {
+		return GnomeSort.gnomeSort(sourceArray);
+	}
 
 	 
 	/**
@@ -28,8 +33,8 @@ public class GnomeSort {
 	public static int[] gnomeSort(int[] sourceArray) {
 		int i = 0;
 		while (i<sourceArray.length) {
-			// 正确的顺序，园丁往前走
-			if(i==0||sourceArray[i-1]<sourceArray[i]){
+			// 正确的顺序，园丁往前走,注意等于号
+			if(i==0||sourceArray[i-1]<=sourceArray[i]){
 				i++;
 			}else{
 				// 错误的顺序，园丁交换花盆位置，并后退一步，继续比较。
@@ -41,27 +46,34 @@ public class GnomeSort {
 		}
 		return sourceArray;
 	}
-
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
-	public static void main(String[] args) {
-		List<int[]> list = new ArrayList<int[]>();
-		int[] arr1 = new int[]{1,10,11,12,13,9,8,7,6};
-		int[] arr2 = new int[]{8,7,6,5,4,3,2,1};
-		int[] arr3 = new int[]{1,8,9,11,4,3,2};
-		list.add(arr1);
-		list.add(arr2);
-		list.add(arr3);
-		for (int[] arr : list) {
-			int[] targetArray = GnomeSort.gnomeSort(arr);
-			for (int i = 0; i < targetArray.length; i++) {
-				System.out.print(targetArray[i]+",");
+	
+	@SuppressWarnings("static-access")
+	public static int[] gnomeSortShow(int[] sourceArray) {
+		int i = 0;
+		while (i<sourceArray.length) {
+			System.out.println("i:"+i);
+			// 正确的顺序，园丁往前走,注意等于号
+			if(i==0||sourceArray[i-1]<=sourceArray[i]){
+				i++;
+			}else{
+				// 错误的顺序，园丁交换花盆位置，并后退一步，继续比较。
+				int temp = sourceArray[i-1];
+				sourceArray[i-1]= sourceArray[i];
+				sourceArray[i] = temp;
+				i--;
+			}
+			System.out.println("当前数组:");
+			for (int j = 0; j < sourceArray.length; j++) {
+				System.out.print(sourceArray[j]+",");
 			}
 			System.out.println();
+			try {
+				Thread.currentThread().sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
+		return sourceArray;
 	}
 
 }

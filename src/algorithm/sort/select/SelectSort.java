@@ -1,5 +1,7 @@
 package algorithm.sort.select;
 
+import algorithm.sort.Sort;
+
 /**
  * The Class SelectSort.
  *  选择排序的算法核心是选择，即在原始数据中每次选出最大或最小的元素，在输出数据中组成有序的数据集合.
@@ -19,7 +21,12 @@ package algorithm.sort.select;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class SelectSort {
+public class SelectSort implements Sort{
+	
+	public int[] sort(int[] sourceArray) {
+		return SelectSort.selectSort(sourceArray);
+	}
+	
 
 	/**
 	 * 选择排序.
@@ -52,13 +59,6 @@ public class SelectSort {
 		return sourceArray;
 	}
 
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
-	public static void main(String[] args) {
-
-	}
+	
 
 }

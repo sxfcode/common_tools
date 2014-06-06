@@ -1,7 +1,6 @@
 package algorithm.sort.change;
 
-import java.util.ArrayList;
-import java.util.List;
+import algorithm.sort.Sort;
 
 /**
  * The Class ComSort. 梳排序(Comb sort)是一种由Wlodzimierz
@@ -24,7 +23,11 @@ import java.util.List;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class ComSort {
+public class ComSort implements Sort {
+	
+	public int[] sort(int[] sourceArray) {
+		return ComSort.combSort(sourceArray);
+	}
 
 	/**
 	 * 梳排序.
@@ -62,20 +65,4 @@ public class ComSort {
 		return sourceArray;
 	}
 
-	public static void main(String[] args) {
-		List<int[]> list = new ArrayList<int[]>();
-		int[] arr1 = new int[]{1,10,11,12,13,9,8,7,6};
-		int[] arr2 = new int[]{8,7,6,5,4,3,2,1};
-		int[] arr3 = new int[]{1,8,9,11,4,3,2};
-		list.add(arr1);
-		list.add(arr2);
-		list.add(arr3);
-		for (int[] arr : list) {
-			int[] targetArray = ComSort.combSort(arr);
-			for (int i = 0; i < targetArray.length; i++) {
-				System.out.print(targetArray[i]+",");
-			}
-			System.out.println();
-		}
-	}
 }

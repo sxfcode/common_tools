@@ -1,5 +1,7 @@
 package algorithm.sort.change;
 
+import algorithm.sort.Sort;
+
 /**
  * The Class CockTailSort.
  *
@@ -8,12 +10,11 @@ package algorithm.sort.change;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class CockTailSort {
+public class CockTailSort implements Sort  {
 
-	/**
-	 * Instantiates a new CockTailSort.
-	 */
-	public CockTailSort() {
+	@Override
+	public int[] sort(int[] sourceArray) {
+		return null;
 	}
 
 }

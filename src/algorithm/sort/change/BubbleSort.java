@@ -1,5 +1,7 @@
 package algorithm.sort.change;
 
+import algorithm.sort.Sort;
+
 /**
  * The Class BubbleSort.
  * 每一趟从待排序的数据元素中选出最小（或最大）的一个元素，顺序放在已排好序的数列的最后，直到全部待排序的数据元素排完。
@@ -18,8 +20,12 @@ package algorithm.sort.change;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class BubbleSort {
-
+public class BubbleSort implements Sort {
+	
+	public int[] sort(int[] sourceArray) {
+		return BubbleSort.bubbleSort(sourceArray);
+	}
+	
 	/**
 	 * 冒泡排序.
 	 * 空间复杂度 n
@@ -45,15 +51,6 @@ public class BubbleSort {
 			flag--;
 		}
 		return sourceArray;
-	}
-
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
-	public static void main(String[] args) {
-
 	}
 
 }

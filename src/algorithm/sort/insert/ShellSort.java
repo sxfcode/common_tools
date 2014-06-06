@@ -1,5 +1,7 @@
 package algorithm.sort.insert;
 
+import algorithm.sort.Sort;
+
 
 /***
  * 希尔排序，
@@ -28,7 +30,13 @@ package algorithm.sort.insert;
     45 27 73 25 39
     10
  */
-public class ShellSort {
+public class ShellSort implements Sort  {
+	
+	public int[] sort(int[] sourceArray) {
+		return ShellSort.shellSort(sourceArray);
+	}
+	
+	
 	/**
 	 * 希尔排序,
 	 * 
@@ -164,17 +172,6 @@ public class ShellSort {
 			}
 		}
 		return sourceArray;
-	}
-
-	
-	public static void main(String[] args) {
-		int[] sourceArray = new int[]{1,10,11,12,13,9,8,7,6};
-		//int[] sourceArray = new int[]{8,7,6,5,4,3,2,1,};
-		//int[] sourceArray = new int[]{1,8,9,11,4,3,2};
-		int[] targetArray = ShellSort.shellSort(sourceArray);
-		for (int i = 0; i < targetArray.length; i++) {
-			System.out.print(targetArray[i]+",");
-		}
 	}
 
 } 	 	

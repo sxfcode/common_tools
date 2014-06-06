@@ -1,5 +1,7 @@
 package algorithm.sort.distribute;
 
+import algorithm.sort.Sort;
+
 /**
  * The Class RadixSort.
  * 注意：
@@ -21,7 +23,13 @@ package algorithm.sort.distribute;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class RadixSort {
+public class RadixSort implements Sort{
+	
+	public int[] sort(int[] sourceArray) {
+		return RadixSort.radixSort(sourceArray, -1);
+	}
+	
+	
 	
 	/**
 	 * 基数排序(桶排序)，
@@ -37,7 +45,7 @@ public class RadixSort {
 	 * @param maxWidth comments 数组中最大数字的位数，例如，数组中最大数字为100，100为3位数，则传3。
 	 *                          若不知道最大数，则传-1即可。
 	 */
-	public static void radixSort(int[] sourceArray,int maxWidth){
+	public static int[] radixSort(int[] sourceArray,int maxWidth){
 		// step 1:确定最大数。
 		// 计算最大数的位数start.
 		int max = 1; // 
@@ -91,22 +99,7 @@ public class RadixSort {
 			sourceIndex = 0;
 			// step 3.3 重复3.1和3.2操作
 		}
-	}
-	
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
-	public static void main(String[] args) {
-		//int[] sourceArray = new int[]{1,4,7,3,4,5,7,8,9,11,20,50,8,2};
-		//int[] sourceArray = new int[]{8,7,6,5,4,3,2,1,};
-	    //int[] sourceArray = new int[]{4,3,2,1};
-		int[] sourceArray = new int[]{321,231,123,111,24,43,32};
-		RadixSort.radixSort(sourceArray,-1);
-		for (int i = 0; i < sourceArray.length; i++) {
-			System.out.println(sourceArray[i]);
-		}
+		return sourceArray;
 	}
 
 }
