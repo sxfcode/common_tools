@@ -69,6 +69,7 @@ public class ZExample {
 
 		// 调用不同的排序方法对数组进行排序
 		for (Sort sort : sortMethods) {
+			System.out.println("====================");
 			System.out.println("当前执行算法:" + sort.toString());
 			for (int i= 0; i < list.size(); i++) {
 				// 对测试数组，进行排序

@@ -44,7 +44,6 @@ public class ComSort implements Sort {
 			sorted = true;
 			// 间距递减
 			step = (int) Math.floor(step/1.3f);
-			System.out.println(step);
 			// 进行比较和交换
 			for (int i = 0; i < sourceArray.length&&(i+step<sourceArray.length); i++) {
 				// 发现需要交换的元素
