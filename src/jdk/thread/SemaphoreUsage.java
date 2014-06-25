@@ -4,7 +4,8 @@ import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 /**
- * The Class SemaphoreUsage. 信号里，用来控制同时访问资源的线程数量。
+ * The Class SemaphoreUsage. 
+ * 信号量，用来控制同时访问资源的线程数量。
  * 
  * @date 2014-6-25 16:09:04
  * @author 宿晓斐
