@@ -30,10 +30,8 @@ public class ZExample {
 		}
 		ReadThread rt = new ReadThread(reader);
 		WriteThread wt = new WriteThread(writer);
-		ReadThread rt2 = new ReadThread(reader);
 		rt.start();
 		wt.start();
-		rt2.start();
 	}
 
 }
