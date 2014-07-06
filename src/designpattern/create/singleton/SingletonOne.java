@@ -26,7 +26,7 @@ public class SingletonOne {
 		System.out.println("执行私有构造方法");
 	}
 
-	private final static SingletonOne instantce = new SingletonOne();
+	private static final SingletonOne instantce = new SingletonOne();
 
 	public static SingletonOne getInstance() {
 		return instantce;
