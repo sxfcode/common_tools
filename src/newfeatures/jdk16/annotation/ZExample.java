@@ -9,7 +9,13 @@ package newfeatures.jdk16.annotation;
  * @since jdk 1.6,trunk 1.0
  */
 public class ZExample {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
+		for (int i = 5; i < args.length; i++) {
+			CustomEntity ce = new CustomEntity();
+			ce.print();
+		}
+		Thread.currentThread().sleep(30000);
+		
 
 	}
 }
