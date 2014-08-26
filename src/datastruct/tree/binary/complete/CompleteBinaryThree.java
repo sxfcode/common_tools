@@ -1,10 +1,12 @@
-package datastruct.tree.complete;
+package datastruct.tree.binary.complete;
 
 import java.util.Arrays;
 import java.util.Stack;
 
 /**
- * The Class CompleteBinaryThree. 完全二叉树,少变更，多查找
+ * The Class CompleteBinaryThree. 
+ * 完全二叉树,通过数组实现
+ * 少变更，多查找
  * 
  * @date 2014-8-21 10:04:52
  * @author 宿晓斐

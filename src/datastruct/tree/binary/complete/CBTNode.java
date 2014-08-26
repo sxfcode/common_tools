@@ -1,4 +1,4 @@
-package datastruct.tree.complete;
+package datastruct.tree.binary.complete;
 
 /**
  * The Class Node.
