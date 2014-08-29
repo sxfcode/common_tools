@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import algorithm.ReadFileNames;
+import core.algorithm.ReadFileNames;
 
 /**
  * The Class IOUtils.

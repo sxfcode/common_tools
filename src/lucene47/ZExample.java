@@ -30,7 +30,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
-import algorithm.ReadFileNames;
+import core.algorithm.ReadFileNames;
 
 /**
  * The Class ZExample.
