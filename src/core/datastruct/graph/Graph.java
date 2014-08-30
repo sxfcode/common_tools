@@ -178,7 +178,7 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 		Stack<E> minTeeESetOtherStack = new Stack<E>();
 		minTeeESetOtherStack.addAll(getAllDescEdges());
 		// 按照权值从小到大遍历所有边，遍历结束条件当最小生成树的边的数=n-1时
-		while (minTeeESetOtherStack.size()>0&&minTeeESet.size()<maxVertexNumber) {
+		while (minTeeESetOtherStack.size()>0&&minTeeESet.size()<maxVertexNumber-1) {
 			E e = minTeeESetOtherStack.pop();
 			Vertex[] vs =e.getVertexes();
 			// 是否属于同一个连通分量
