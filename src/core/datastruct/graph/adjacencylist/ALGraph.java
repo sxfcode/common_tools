@@ -8,7 +8,7 @@ import core.datastruct.graph.Graph;
 
 /**
  * The Class ALGraph.
- * 基于邻接表存储结构的图
+ * 基于邻接表存储结构的图 mk
  * 无向图有向图均可.在表示有向图时，需要一个逆向邻接表
  *
  * @date 2014-8-27 16:27:28
@@ -16,7 +16,7 @@ import core.datastruct.graph.Graph;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class ALGraph extends Graph<ALVertex>{
+public class ALGraph {
 	
 	/** 顶点数组. */
 	private ALVertex[] vertexes;
@@ -176,13 +176,13 @@ public class ALGraph extends Graph<ALVertex>{
 		}
 	}
 
-	@Override
+	
 	public List<ALVertex> getAllVertexes() {
 		return Arrays.asList(vertexes);
 	}
 
 
-	@Override
+	
 	public List<ALVertex> getAllAdjacencyVertexes(ALVertex vertex) {
 		List<ALVertex> list = new ArrayList<ALVertex>();
 		for (ALArcNode arc= vertex.getFirstArcNode();arc!=null;arc = arc.getNext()) {
@@ -191,28 +191,28 @@ public class ALGraph extends Graph<ALVertex>{
 		return list;
 	}
 
-	@Override
+	
 	public boolean isVisited(ALVertex vertex) {
 		return vertex.isVisited();
 	}
 
-	@Override
+	
 	public void setVisited(ALVertex vertex) {
 		vertex.setVisited(true);
 	}
 	
-	@Override
+	
 	public void setUnVisited(ALVertex vertex) {
 		vertex.setVisited(false);
 	}
 	public static void main(String[] args) {
-		ALGraph al = new ALGraph();
-		al.createTestGraph();
-		System.out.println("深度优先遍历");
-		al.dfsGraph();
-		al.initUnVisited();
-		System.out.println("广度优先遍历");
-		al.bfsGraph();
+//		ALGraph al = new ALGraph();
+//		al.createTestGraph();
+//		System.out.println("深度优先遍历");
+//		al.dfsGraph();
+//		al.initUnVisited();
+//		System.out.println("广度优先遍历");
+//		al.bfsGraph();
 	}
 	
 	

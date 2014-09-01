@@ -42,6 +42,20 @@ public abstract class Edge {
 		return false;
 	}
 	
+	public boolean containsTail(Vertex v){
+		if(getTail().equals(v)){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean containsHead(Vertex v){
+		if(getHead().equals(v)){
+			return true;
+		}
+		return false;
+	}
+	
 	public Vertex[] getVertexes(){
 		Vertex[] vs = new Vertex[2];
 		vs[0] = getTail();

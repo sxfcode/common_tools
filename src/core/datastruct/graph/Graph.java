@@ -1,6 +1,7 @@
 package core.datastruct.graph;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,22 @@ import java.util.Stack;
  * @since jdk 1.6,common_tools 1.0
  */
 public abstract class Graph<V extends Vertex, E extends Edge> {
+	
+	/**
+	 * 是否为有向图.
+	 * true为有向图,false为无向图
+	 * @return true, if is directed graph
+	 */
+	public abstract boolean isDirected();
+	
+	/**
+	 * 是否为连通图。
+	 * true为连通图,false为非连通图.
+	 *
+	 * @return true, if is connected graph
+	 */
+	public abstract boolean isConnected();
+	
 
 	/**
 	 * 通过存储区获得所有顶点.
@@ -52,8 +69,25 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 	 */
 	public abstract List<E> getAllEdges();
 	
+	
 	/**
-	 * 通过存储区获得所有边,按权值升序排列
+	 * 获取从顶点的出边.
+	 *
+	 * @param v comments
+	 * @return edges
+	 */
+	public abstract List<E> getOutEdges(V v);
+	
+	/**
+	 * 获取顶点的入边.
+	 *
+	 * @param v comments
+	 * @return edges
+	 */
+	public abstract List<E> getInEdges(V v);
+	
+	/**
+	 * 通过存储区获得所有边,按权值升序排列.
 	 *
 	 * @return allVertexes
 	 */
@@ -68,13 +102,22 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 
 
 	/**
-	 * visit.
+	 * 访问顶点vertex.
 	 *
 	 * @param vertex
 	 *            comments
 	 * @return true, if successful
 	 */
 	public abstract void visit(V vertex);
+	
+	/**
+	 * 将所有结点初始化为未访问状态.
+	 */
+	public void initUnVisited() {
+		for (V v : getAllVertexes()) {
+			v.setVisited(false);
+		}
+	}
 
 
 	/**
@@ -144,17 +187,11 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 		}
 	}
 
-	/**
-	 * 将所有结点初始化为未访问状态.
-	 */
-	public void initUnVisited() {
-		for (V v : getAllVertexes()) {
-			v.setVisited(false);
-		}
-	}
 
 	/**
 	 * 克鲁斯卡尔算法求最小生成树，连通图.
+	 *
+	 * @return Set
 	 */
 	public Set<E> kruskalsMinTree() {
 		// minTeeVSet+minTeeVSetOther是图的顶点全集
@@ -182,7 +219,7 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 			E e = minTeeESetOtherStack.pop();
 			Vertex[] vs =e.getVertexes();
 			// 是否属于同一个连通分量
-			if(checkInOne(vs[0], vs[1], minTeeESet)){
+			if(checkReach(vs[0], vs[1], minTeeESet)){
 				continue;
 			}else{
 				minTeeESet.add(e);
@@ -190,39 +227,13 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 		}
 		return minTeeESet;
 	}
-	
-	/**
-	 * 判断两个顶点是否属于同一个连通分量.
-	 *
-	 * @param source comments
-	 * @param target comments
-	 * @param minTeeESet comments
-	 * @return true, if successful
-	 */
-	public boolean checkInOne(Vertex source,Vertex target,Set<E>minTeeESet){
-		for (E e : minTeeESet) {
-			if (e.contains(source)) {
-				source.setVisited(true);
-				Vertex other =e.getAnother(source);
-				if(other.isVisited()){
-					continue;
-				}else{
-					if (other.equals(target)) {
-						return true;
-					}else{
-						if(checkInOne(other,target,minTeeESet)){
-							return true;
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
 
 	/**
 	 * 普利姆算法求最小生成树,连通图。 算法说明，初始化最小生成树为任意一个顶点，从剩余顶点中找到距离最小生成树中权值最小的边，
 	 * 将该边的非最小生成树顶点和该边，加入到最小生成树，直到最小生成树的顶点数同图的顶点数相同。.
+	 * 贪心算法.
+	 *
+	 * @return Set
 	 */
 	public Set<E> primMinTree() {
 		// minTeeVSet+minTeeVSetOther是图的顶点全集
@@ -307,5 +318,152 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 		}
 		return min;
 	}
-
+	
+	
+	/**
+	 * 获取从start顶点到end订单的最短路径.
+	 * 原理：递归+最短路径性质
+	 *
+	 * @param start 起始顶点
+	 * @param end 结束顶点
+	 * @return minPaths 返回最短路径上的弧或边
+	 */
+	@SuppressWarnings("unchecked")
+	public Set<E> getMinPaths(V start, V end){
+		// 判断顶点之间是否存在路径
+		if(!checkReach(start,end,getAllEdges())){
+			return null;
+		}
+		// 最短路径
+		Set<E> minPaths = null;
+		List<E> adjaEdges = getOutEdges(start);
+		if(adjaEdges==null||adjaEdges.size()==0){
+			return minPaths;
+		}
+		// 遍历邻接点,找出从邻接点出发到达终点的最短路径
+		for (E e : adjaEdges) {
+			if(!checkReach((V)e.getHead(),end,getAllEdges())){
+				continue;
+			}
+			Set<E> adjaMin =  new HashSet<E>();
+			if(((V)e.getHead()).equals(end)){
+				adjaMin = new HashSet<E>();
+			}else{
+				adjaMin =getMinPaths((V)e.getHead(),end);
+			}
+			adjaMin.add(e);
+			// 赋值
+			if (minPaths==null) {
+				minPaths = adjaMin;
+			}else{
+				// 若当前出边的尾部==最终结点，则当前路径长度为当前边的权值
+				int currentMinValue = getPathValue(adjaMin);
+				int oldMinValue = getPathValue(minPaths);
+				// 判断当前路径是否比上次保存的路径更短，若更短，则替换之
+				if(currentMinValue<oldMinValue){
+					minPaths = adjaMin;
+				}
+			}
+		}
+		return minPaths;
+	}
+	
+	
+	
+	/**
+	 * 计算加权路径长度，假设路径是正确且连通的.
+	 *
+	 * @param edges comments
+	 * @return pathValue
+	 */
+	private int getPathValue(Set<E> edges){
+		int result = 0;
+		for (E e : edges) {
+			result = result+ e.getWeight();
+		}
+		return result;
+	}
+	
+	
+	/**
+	 * 根据指定的边，判断从source顶点出发能否到达target顶点.
+	 * 注意:
+	 * 1)对无向图来说也可以用来判断两个订单是否属于同一个连通分量，
+	 * 2)是对有向图来说，不能用来判断是否同一个连通分量，因为有可能在source 到target之间存在一个逆向的弧，使source与target不可达，但是却属于同一个连通分量
+	 *
+	 * @param source 起点
+	 * @param target 终点
+	 * @param edgeSet 允许使用的边或弧
+	 * @return true, if successful
+	 */
+	public boolean checkReach(Vertex source,Vertex target,Collection<E> edgeSet){
+		if(isDirected()){
+			return checkReachForDirectived(source,target,edgeSet);
+		}else{
+			return checkReachForUnDirectived(source,target,edgeSet);
+		}
+	}
+	
+	/**
+	 * 根据指定的边，判断从source顶点能否到达target顶点
+	 * 若source顶点跟target订单为同一顶点返回true.
+	 *
+	 * @param source comments
+	 * @param target comments
+	 * @param edgeSet comments
+	 * @return true, if successful
+	 */
+	public boolean checkReachForDirectived(Vertex source,Vertex target,Collection<E> edgeSet){
+		if(source.equals(target)){
+			return true;
+		}
+		for (E e : edgeSet) {
+			if (e.containsTail(source)) {
+				source.setVisited(true);
+				Vertex next =e.getHead();
+				if(next.isVisited()){
+					continue;
+				}else{
+					if (next.equals(target)) {
+						return true;
+					}else{
+						if(checkReachForDirectived(next,target,edgeSet)){
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 根据指定的边，判断两个顶点是否属于同一个连通分量.
+	 * 无向图算法
+	 *
+	 * @param source comments
+	 * @param target comments
+	 * @param minTeeESet comments
+	 * @return true, if successful
+	 */
+	public boolean checkReachForUnDirectived(Vertex source,Vertex target,Collection<E>minTeeESet){
+		for (E e : minTeeESet) {
+			if (e.contains(source)) {
+				source.setVisited(true);
+				Vertex other =e.getAnother(source);
+				if(other.isVisited()){
+					continue;
+				}else{
+					if (other.equals(target)) {
+						return true;
+					}else{
+						if(checkReachForUnDirectived(other,target,minTeeESet)){
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
 }
