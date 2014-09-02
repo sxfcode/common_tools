@@ -21,8 +21,39 @@ public abstract class Vertex {
 	/**
 	 * Sets visited.
 	 *
+	 * @param visited comments
 	 */
 	public abstract void setVisited(boolean visited);
+	
+	
+	/**
+	 * Gets number.
+	 *
+	 * @return number
+	 */
+	public abstract Object getNumber() ;
+
+	/**
+	 * Sets number.
+	 *
+	 * @param number comments
+	 */
+	public abstract void setNumber(Object number) ;
+	
+	/**
+	 * Gets data.
+	 *
+	 * @return data
+	 */
+	public abstract Object getData();
+	
+	/**
+	 * Sets data.
+	 *
+	 * @param data
+	 *            comments
+	 */
+	public abstract  void setData(Object data);
 
 
 }

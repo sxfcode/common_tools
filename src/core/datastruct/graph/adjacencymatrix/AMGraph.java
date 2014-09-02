@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import core.datastruct.graph.Graph;
-import core.datastruct.graph.Vertex;
 
 /**
  * The Class Graph. 
@@ -326,24 +327,16 @@ public class AMGraph extends Graph<AMVertex,AMEdge>{
 		graph.createMinPathTestGraph();
 		AMVertex[] vs = graph.getVertexes();
 		edges = graph.getMinPaths(vs[0], vs[5]);
-		System.out.println("v0到v5的最短路径为:");
+		System.out.println("递归生成最短路径，v0到v5的最短路径为:");
 		graph.printMinPaths(vs[0], vs[5], edges);
+		System.out.println();
 		
-	}
-	public void printMinPaths(AMVertex start,AMVertex end,Set<AMEdge> edges){
-		int weight = 0;
-		while (!start.equals(end)) {
-			for (AMEdge amEdge : edges) {
-				if(amEdge.getTail().equals(start)){
-					System.out.print(start.getData()+"->");
-					start=amEdge.getHead();
-					weight = weight+amEdge.getWeight();
-					break;
-				}
-			}
+		System.out.println("迪杰斯特拉算法生成最短路径，v0到v5的最短路径为:");
+		Map<AMVertex,Set<AMEdge>> result = graph.dijkstra(vs[0]);
+		for (AMVertex target : result.keySet()) {
+			graph.printMinPaths(vs[0], target, result.get(target));	
 		}
-		System.out.print(end.getData());
-		System.out.print("  权值和为:"+weight);
+		
 	}
 	
 }

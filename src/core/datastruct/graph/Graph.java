@@ -2,8 +2,10 @@ package core.datastruct.graph;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -378,6 +380,9 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 	 */
 	private int getPathValue(Set<E> edges){
 		int result = 0;
+		if(edges==null||edges.size()==0){
+			return result;
+		}
 		for (E e : edges) {
 			result = result+ e.getWeight();
 		}
@@ -466,4 +471,184 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 		}
 		return false;
 	}
+	
+	/**
+	 * 迪杰斯特拉算法求某顶点到其他顶点的最短路径.
+	 * 贪心算法
+	 *
+	 * @param source comments
+	 * @return Map
+	 */
+	public Map<V,Set<E>> dijkstra(V source){
+		// 已经找到最短路径的顶点k,k表示距离source的最短路径的顶点
+		Set<V> foundShortestPathVertex = new HashSet<V>();
+		// 尚未找到最短路径的顶点
+		Set<V> notFoundShortestPathVertex = new HashSet<V>();
+		
+		// 到达每个顶点的当前最短路径,算法会在遍历中修改该值，若路径不可达，则value为null
+		Map<V,Set<E>> result = new HashMap<V,Set<E>>();
+		
+		// 初始化foundShortestPathVertex集合
+		for (V v : getAllVertexes()) {
+			// source和source的距离是0，属于最短路径之一
+			if (source.equals(v)) {
+				foundShortestPathVertex.add(v);
+			} else {
+				notFoundShortestPathVertex.add(v);
+			}
+		}
+		// 初始化，若source与各顶点之间不存在直接路径，则result中为null;
+		for (V v : notFoundShortestPathVertex) {
+			E directEdge = getDirectEdge(source, v);
+			Set<E> shortest =null;
+			if (directEdge!=null) {
+				shortest = new HashSet<E>();
+				shortest.add(directEdge);
+			}
+			result.put(v, shortest);
+		}
+		
+		// 从V-S中找到路径最短的顶点
+		while (!notFoundShortestPathVertex.isEmpty()) {
+			getMinPath(foundShortestPathVertex ,notFoundShortestPathVertex,result);
+		}
+		return result;
+	}
+	
+	/**
+	 * Gets minPath.
+	 *
+	 * @param foundShortestPathVertex 集合S 已经找到最短路径的顶点
+	 * @param notFoundShortestPathVertex 集合V-S 尚未找到最短路径的顶点
+	 * @param result comments
+	 * @return minPath
+	 */
+	public void getMinPath(Set<V> foundShortestPathVertex ,Set<V> notFoundShortestPathVertex,Map<V,Set<E>> result){
+		int currentMin = -1;
+		// V-S集合中顶点
+		V currentMinV =null; 
+		Set<E> currentMinEdges =new HashSet<E>();
+		
+		V minV =null; 
+		Set<E> minEdges =new HashSet<E>();
+		
+		for (V notfoundv : notFoundShortestPathVertex) {
+			currentMinEdges = result.get(notfoundv);
+			int oldMin= -1;
+			if (currentMinEdges!=null) {
+				oldMin = getPathValue(currentMinEdges);
+			}
+			
+			
+			for(V foundv:foundShortestPathVertex){
+				E directEdge = getDirectEdge(foundv, notfoundv);
+				if (directEdge==null) {
+					continue;
+				}
+				Set<E> foundEs= result.get(foundv);
+				// 赋初值
+				if(oldMin==-1){
+					Set<E> newFoundEs = new HashSet<E>();
+					newFoundEs.addAll(foundEs);
+					newFoundEs.add(directEdge);
+					currentMinEdges =newFoundEs;
+					oldMin = getPathValue(currentMinEdges);
+					continue;
+				}
+				// 发现更小的路径，替换
+				int newPathWeight = directEdge.getWeight()+getPathValue(foundEs);
+				if (newPathWeight<oldMin) {
+					Set<E> newFoundEs = new HashSet<E>();
+					newFoundEs.addAll(foundEs);
+					newFoundEs.add(directEdge);
+					currentMinEdges =newFoundEs;
+					oldMin = getPathValue(currentMinEdges);
+				}
+			}
+			if(oldMin!=-1){
+				// 更新到达某点的暂时最短路径
+				result.put(notfoundv, currentMinEdges);
+				// 当minV为空时，外层循环为minV赋初值
+				if (minV==null) {
+					minV = notfoundv;
+					minEdges = currentMinEdges;
+				}else{
+					if(getPathValue(currentMinEdges)<getPathValue(minEdges)){
+						minV = notfoundv;
+						minEdges = currentMinEdges;
+					}
+					
+				}
+			}
+		}
+		// 更新集合S和V-S，(集合S 已经找到最短路径的顶点,集合V-S 尚未找到最短路径的顶点)
+		if (minV!=null) {
+			foundShortestPathVertex.add(minV);
+			notFoundShortestPathVertex.remove(minV);
+		}
+	}
+	
+	
+	
+	/**
+	 * 获取两个顶点的直连边或弧.
+	 *
+	 * @param start comments
+	 * @param end comments
+	 * @return directEdge
+	 */
+	public E getDirectEdge(V start, V end){
+		E result = null;
+		// 如果是有向图
+		if (isDirected()) {
+			for (E e:getAllEdges()) {
+				if(e.containsTail(start)&&e.containsHead(end)){
+					result = e;
+					break;
+				}
+			}
+		}else{
+			for (E e:getAllEdges()) {
+				if(e.contains(start)&&e.contains(end)){
+					result = e;
+					break;
+				}
+			}
+		}
+		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void printMinPaths(V start,V end,Set<E> edges){
+		if(edges==null||edges.size()==0){
+			System.out.print(start.getData()+"->"+end.getData()+"无法到达");
+		}
+		
+		
+		int weight = 0;
+		while (!start.equals(end)) {
+			for (E e : edges) {
+				if (isDirected()) {
+					if(e.getTail().equals(start)){
+						System.out.print(start.getData()+"->");
+						start=(V)e.getHead();
+						weight = weight+e.getWeight();
+						break;
+					}
+				}else{
+					if(e.contains(start)){
+						System.out.print(start.getData()+"->");
+						start=(V)e.getAnother(start);
+						weight = weight+e.getWeight();
+						break;
+					}
+				}
+				
+			}
+		}
+		System.out.print(end.getData());
+		System.out.print("  权值和为:"+weight);
+	}
+	
+	
 }

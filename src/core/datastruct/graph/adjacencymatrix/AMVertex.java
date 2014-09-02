@@ -14,6 +14,8 @@ public class AMVertex extends Vertex {
 
 	/** data. */
 	private Object data;
+	
+	private Object number;
 
 	private boolean visited = false;
 
@@ -50,7 +52,13 @@ public class AMVertex extends Vertex {
 	public void setVisited(boolean visited) {
 		this.visited = visited;
 	}
-	
-	
+
+	public Object getNumber() {
+		return number;
+	}
+
+	public void setNumber(Object number) {
+		this.number = number;
+	}
 
 }
