@@ -331,6 +331,7 @@ public class AMGraph extends Graph<AMVertex,AMEdge>{
 		graph.printMinPaths(vs[0], vs[5], edges);
 		System.out.println();
 		
+		graph.initUnVisited();
 		System.out.println("迪杰斯特拉算法生成最短路径，v0到v5的最短路径为:");
 		Map<AMVertex,Set<AMEdge>> result = graph.dijkstra(vs[0]);
 		for (AMVertex target : result.keySet()) {
