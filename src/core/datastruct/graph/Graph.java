@@ -507,9 +507,16 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 			}
 			result.put(v, shortest);
 		}
-		
+//		int canReachNumbers = 0;
+//		for (V v : notFoundShortestPathVertex) {
+//			if (checkReach(source, v, getAllEdges())) {
+//				
+//			}
+//		}
 		// 从V-S中找到路径最短的顶点
-		while (!notFoundShortestPathVertex.isEmpty()) {
+		int i =notFoundShortestPathVertex.size();
+		while (i>0) {
+			i--;
 			getMinPath(foundShortestPathVertex ,notFoundShortestPathVertex,result);
 		}
 		return result;
@@ -554,15 +561,16 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 					currentMinEdges =newFoundEs;
 					oldMin = getPathValue(currentMinEdges);
 					continue;
-				}
-				// 发现更小的路径，替换
-				int newPathWeight = directEdge.getWeight()+getPathValue(foundEs);
-				if (newPathWeight<oldMin) {
-					Set<E> newFoundEs = new HashSet<E>();
-					newFoundEs.addAll(foundEs);
-					newFoundEs.add(directEdge);
-					currentMinEdges =newFoundEs;
-					oldMin = getPathValue(currentMinEdges);
+				}else{
+					// 发现更小的路径，替换
+					int newPathWeight = directEdge.getWeight()+getPathValue(foundEs);
+					if (newPathWeight<oldMin) {
+						Set<E> newFoundEs = new HashSet<E>();
+						newFoundEs.addAll(foundEs);
+						newFoundEs.add(directEdge);
+						currentMinEdges =newFoundEs;
+						oldMin = getPathValue(currentMinEdges);
+					}
 				}
 			}
 			if(oldMin!=-1){
@@ -577,7 +585,6 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 						minV = notfoundv;
 						minEdges = currentMinEdges;
 					}
-					
 				}
 			}
 		}
@@ -585,6 +592,14 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 		if (minV!=null) {
 			foundShortestPathVertex.add(minV);
 			notFoundShortestPathVertex.remove(minV);
+			//System.out.println("当前已找到最短路径的顶点个数:"+foundShortestPathVertex.size());
+			for (V v : foundShortestPathVertex) {
+				System.out.println(v.getData()+",");
+			}
+			//System.out.println("当前未找到最短路径的顶点个数:"+notFoundShortestPathVertex.size());
+			for (V v : notFoundShortestPathVertex) {
+				System.out.println(v.getData()+",");
+			}
 		}
 	}
 	
@@ -621,7 +636,9 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 	@SuppressWarnings("unchecked")
 	public void printMinPaths(V start,V end,Set<E> edges){
 		if(edges==null||edges.size()==0){
-			System.out.print(start.getData()+"->"+end.getData()+"无法到达");
+			System.out.print(start.getData()+"->"+end.getData()+" 无法到达");
+			System.out.println();
+			return;
 		}
 		
 		
@@ -648,6 +665,7 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 		}
 		System.out.print(end.getData());
 		System.out.print("  权值和为:"+weight);
+		System.out.println();
 	}
 	
 	
