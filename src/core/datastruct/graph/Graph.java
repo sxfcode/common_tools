@@ -507,17 +507,11 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 			}
 			result.put(v, shortest);
 		}
-//		int canReachNumbers = 0;
-//		for (V v : notFoundShortestPathVertex) {
-//			if (checkReach(source, v, getAllEdges())) {
-//				
-//			}
-//		}
 		// 从V-S中找到路径最短的顶点
 		int i =notFoundShortestPathVertex.size();
 		while (i>0) {
 			i--;
-			getMinPath(foundShortestPathVertex ,notFoundShortestPathVertex,result);
+			getMinPathByDijkstra(foundShortestPathVertex ,notFoundShortestPathVertex,result);
 		}
 		return result;
 	}
@@ -530,79 +524,60 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 	 * @param result comments
 	 * @return minPath
 	 */
-	public void getMinPath(Set<V> foundShortestPathVertex ,Set<V> notFoundShortestPathVertex,Map<V,Set<E>> result){
-		int currentMin = -1;
+	public void getMinPathByDijkstra(Set<V> foundShortestPathVertex ,Set<V> notFoundShortestPathVertex,Map<V,Set<E>> result){
 		// V-S集合中顶点
-		V currentMinV =null; 
-		Set<E> currentMinEdges =new HashSet<E>();
+		// 外层循环变量
+		V outerMinV =null; 
+		Set<E> outerMinEdges =new HashSet<E>();
 		
-		V minV =null; 
-		Set<E> minEdges =new HashSet<E>();
-		
+		// step 1:外层循环     从到达n个顶点的最短路径中找到最短的一个
 		for (V notfoundv : notFoundShortestPathVertex) {
-			currentMinEdges = result.get(notfoundv);
-			int oldMin= -1;
-			if (currentMinEdges!=null) {
-				oldMin = getPathValue(currentMinEdges);
+			// 内层循环变量,初始化
+			Set<E> innerCurrentMinEdges =result.get(notfoundv);
+			int innerOldMin= -1;
+			if (innerCurrentMinEdges!=null) {
+				innerOldMin = getPathValue(innerCurrentMinEdges);
 			}
 			
-			
+			// step 2: 内层循环    从多个已知的最短路径到达同一个顶点，从这多个最短路径中找到到达该顶点的最短路径
 			for(V foundv:foundShortestPathVertex){
+				// 只取直接路径
 				E directEdge = getDirectEdge(foundv, notfoundv);
 				if (directEdge==null) {
 					continue;
 				}
+				// 已知的最短路径
 				Set<E> foundEs= result.get(foundv);
-				// 赋初值
-				if(oldMin==-1){
+				int newPathWeight = directEdge.getWeight()+getPathValue(foundEs);
+				// 初始化或者发现更短的路径时
+				if(innerOldMin==-1||newPathWeight<innerOldMin){
 					Set<E> newFoundEs = new HashSet<E>();
 					newFoundEs.addAll(foundEs);
 					newFoundEs.add(directEdge);
-					currentMinEdges =newFoundEs;
-					oldMin = getPathValue(currentMinEdges);
-					continue;
-				}else{
-					// 发现更小的路径，替换
-					int newPathWeight = directEdge.getWeight()+getPathValue(foundEs);
-					if (newPathWeight<oldMin) {
-						Set<E> newFoundEs = new HashSet<E>();
-						newFoundEs.addAll(foundEs);
-						newFoundEs.add(directEdge);
-						currentMinEdges =newFoundEs;
-						oldMin = getPathValue(currentMinEdges);
-					}
+					innerCurrentMinEdges =newFoundEs;
+					innerOldMin = getPathValue(innerCurrentMinEdges);
 				}
 			}
-			if(oldMin!=-1){
+			
+			// step 3:更新到达某点的最短路径
+			if(innerOldMin!=-1){
 				// 更新到达某点的暂时最短路径
-				result.put(notfoundv, currentMinEdges);
-				// 当minV为空时，外层循环为minV赋初值
-				if (minV==null) {
-					minV = notfoundv;
-					minEdges = currentMinEdges;
-				}else{
-					if(getPathValue(currentMinEdges)<getPathValue(minEdges)){
-						minV = notfoundv;
-						minEdges = currentMinEdges;
-					}
+				result.put(notfoundv, innerCurrentMinEdges);
+				//初始化或者发现更短的路径时
+				if (outerMinV==null||getPathValue(innerCurrentMinEdges)<getPathValue(outerMinEdges)) {
+					outerMinV = notfoundv;
+					outerMinEdges = innerCurrentMinEdges;
 				}
 			}
 		}
-		// 更新集合S和V-S，(集合S 已经找到最短路径的顶点,集合V-S 尚未找到最短路径的顶点)
-		if (minV!=null) {
-			foundShortestPathVertex.add(minV);
-			notFoundShortestPathVertex.remove(minV);
-			//System.out.println("当前已找到最短路径的顶点个数:"+foundShortestPathVertex.size());
-			for (V v : foundShortestPathVertex) {
-				System.out.println(v.getData()+",");
-			}
-			//System.out.println("当前未找到最短路径的顶点个数:"+notFoundShortestPathVertex.size());
-			for (V v : notFoundShortestPathVertex) {
-				System.out.println(v.getData()+",");
-			}
+		
+		// 本次大循环找打的最短路径
+		// step 4:更新最短路径和非最短路径集合  。更新集合S和V-S，(集合S 已经找到最短路径的顶点,集合V-S 尚未找到最短路径的顶点)
+		if (outerMinV!=null) {
+			foundShortestPathVertex.add(outerMinV);
+			notFoundShortestPathVertex.remove(outerMinV);
 		}
 	}
-	
 	
 	
 	/**
@@ -633,6 +608,13 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 		return result;
 	}
 	
+	/**
+	 * printMinPaths.
+	 *
+	 * @param start comments
+	 * @param end comments
+	 * @param edges comments
+	 */
 	@SuppressWarnings("unchecked")
 	public void printMinPaths(V start,V end,Set<E> edges){
 		if(edges==null||edges.size()==0){
