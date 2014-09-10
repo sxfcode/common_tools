@@ -310,14 +310,14 @@ public class AMGraph extends Graph<AMVertex,AMEdge>{
 		System.out.println();
 		graph.initUnVisited();
 		System.out.println("普利姆算法输出最小生成树");
-		Set<AMEdge> edges = graph.primMinTree();
+		Set<AMEdge> edges = graph.buildMinTreeByPrim();
 		for (AMEdge e:edges) {
 			System.out.println(e.getTail().getData()+"->"+e.getHead().getData()+":"+e.getWeight());
 		}
 		System.out.println();
 		graph.initUnVisited();
 		System.out.println("克鲁斯卡尔输出最小生成树");
-		edges = graph.kruskalsMinTree();
+		edges = graph.buildMinTreeByKruskals();
 		for (AMEdge e:edges) {
 			System.out.println(e.getTail().getData()+"->"+e.getHead().getData()+":"+e.getWeight());
 		}
@@ -325,14 +325,14 @@ public class AMGraph extends Graph<AMVertex,AMEdge>{
 		graph.setDirected(true);
 		graph.createMinPathTestGraph();
 		AMVertex[] vs = graph.getVertexes();
-		edges = graph.getMinPaths(vs[0], vs[5]);
+		edges = graph.buildMinPathBySxf(vs[0], vs[5]);
 		System.out.println("递归生成最短路径，v0到v5的最短路径为:");
 		graph.printMinPaths(vs[0], vs[5], edges);
 		System.out.println();
 		
 		graph.initUnVisited();
 		System.out.println("迪杰斯特拉算法生成最短路径，v0到v5的最短路径为:");
-		Map<AMVertex,Set<AMEdge>> result = graph.dijkstra(vs[0]);
+		Map<AMVertex,Set<AMEdge>> result = graph.buildMinPathByDijkstra(vs[0]);
 		for (AMVertex target : result.keySet()) {
 			graph.printMinPaths(vs[0], target, result.get(target));	
 		}

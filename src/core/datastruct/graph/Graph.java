@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 
 /**
  * The Class Graph. V表示顶点，E表示边
@@ -195,36 +194,32 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 	 *
 	 * @return Set
 	 */
-	public Set<E> kruskalsMinTree() {
-		// minTeeVSet+minTeeVSetOther是图的顶点全集
-		// minTeeESet+minTeeESetOther是图的边全集
-
+	public Set<E> buildMinTreeByKruskals() {
 		// 最小生成树的顶点集合,初始化为空
 		Set<V> minTeeVSet = new HashSet<V>();
 		minTeeVSet.addAll(getAllVertexes());
 		// 最小生成树的边集合，初始化为空
 		Set<E> minTeeESet = new HashSet<E>();
 
-//		// 非最小生成树的顶点集合,初始化为全集
-//		Set<V> minTeeVSetOther = new HashSet<V>();
 		// 非最小生成树的边集合，初始化为全集,按照权值排序
 		List<E> minTeeESetOther = new ArrayList<E>();
 		minTeeESetOther.addAll(getAllAscEdges());
-		
 		int maxVertexNumber = minTeeVSet.size();
 		
-		// 堆栈,注意:元素出栈是按照入栈的逆序顺序进行的
-		Stack<E> minTeeESetOtherStack = new Stack<E>();
-		minTeeESetOtherStack.addAll(getAllDescEdges());
 		// 按照权值从小到大遍历所有边，遍历结束条件当最小生成树的边的数=n-1时
-		while (minTeeESetOtherStack.size()>0&&minTeeESet.size()<maxVertexNumber-1) {
-			E e = minTeeESetOtherStack.pop();
-			Vertex[] vs =e.getVertexes();
-			// 是否属于同一个连通分量
-			if(checkReach(vs[0], vs[1], minTeeESet)){
-				continue;
+		for (E e : minTeeESetOther) {
+			if(minTeeESet.size()<maxVertexNumber-1){
+				Vertex[] vs =e.getVertexes();
+				// 是否属于同一个连通分量,若属于同一个连通分量，则跳过，检查下一条边
+				if(checkReach(vs[0], vs[1], minTeeESet)){
+					System.out.println(vs[0].getData()+","+vs[1].getData()+"连通");
+					continue;
+				}else{
+					System.out.println(vs[0].getData()+","+vs[1].getData()+"未连通");
+					minTeeESet.add(e);
+				}
 			}else{
-				minTeeESet.add(e);
+				break;
 			}
 		}
 		return minTeeESet;
@@ -237,10 +232,7 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 	 *
 	 * @return Set
 	 */
-	public Set<E> primMinTree() {
-		// minTeeVSet+minTeeVSetOther是图的顶点全集
-		// minTeeESet+minTeeESetOther是图的边全集
-
+	public Set<E> buildMinTreeByPrim() {
 		// 最小生成树的顶点集合,初始化为空
 		Set<V> minTeeVSet = new HashSet<V>();
 		// 最小生成树的边集合，初始化为空
@@ -259,10 +251,9 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 		minTeeVSet.add(firstV);
 		minTeeVSetOther.remove(firstV);
 		
-		
 		// 当最小生成树的顶点数跟图的顶点数相同时，循环结束
 		while (minTeeVSet.size() < maxVertexNumber) {
-			E e = getMinCost(minTeeVSet, minTeeVSetOther, minTeeESetOther);
+			E e = getMinEdgeForPrim(minTeeVSet, minTeeVSetOther, minTeeESetOther);
 			// 将查找到的边和顶点，加入最小生成树
 			minTeeVSet.addAll(getEdgeVertexes(e));
 			minTeeESet.add(e);
@@ -272,55 +263,6 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 		}
 		return minTeeESet;
 	}
-
-	/**
-	 * 边的顶点是否在顶点集合中存在.
-	 *
-	 * @param e
-	 *            comments
-	 * @param vSet
-	 *            comments
-	 * @return true, if successful
-	 */
-	public boolean edgeContainsVertexes(E e, Set<V> vSet) {
-		for (V v : vSet) {
-			if (e.contains(v)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * 获取构成最小生成树的最小权值的边.
-	 *
-	 * @param minTeeVSet
-	 *            最小生成树的顶点
-	 * @param minTeeVSetOther
-	 *            非最小生成树的顶点
-	 * @param minTeeESetOther
-	 *            非最小生成树的边
-	 * @return minCost
-	 */
-	public E getMinCost(Set<V> minTeeVSet, Set<V> minTeeVSetOther,
-			Set<E> minTeeESetOther) {
-		E min = null;
-		for (E e : minTeeESetOther) {
-			// 边的两个顶点必须一个是最小生成树的点，另一个是非最小生成树的顶点，即该边是连接最小生成树和非最小生成树的
-			if (edgeContainsVertexes(e, minTeeVSet)
-					&& edgeContainsVertexes(e, minTeeVSetOther)) {
-				if (min == null) {
-					min = e;
-				}
-				// 找到权值最小的边
-				if (e.getWeight() < min.getWeight()) {
-					min = e;
-				}
-			}
-		}
-		return min;
-	}
-	
 	
 	/**
 	 * 获取从start顶点到end订单的最短路径.
@@ -331,7 +273,7 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 	 * @return minPaths 返回最短路径上的弧或边
 	 */
 	@SuppressWarnings("unchecked")
-	public Set<E> getMinPaths(V start, V end){
+	public Set<E> buildMinPathBySxf(V start, V end){
 		// 判断顶点之间是否存在路径
 		if(!checkReach(start,end,getAllEdges())){
 			return null;
@@ -351,7 +293,7 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 			if(((V)e.getHead()).equals(end)){
 				adjaMin = new HashSet<E>();
 			}else{
-				adjaMin =getMinPaths((V)e.getHead(),end);
+				adjaMin =buildMinPathBySxf((V)e.getHead(),end);
 			}
 			adjaMin.add(e);
 			// 赋值
@@ -370,6 +312,97 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 		return minPaths;
 	}
 	
+	/**
+	 * 迪杰斯特拉算法求某顶点到其他顶点的最短路径.
+	 * 贪心算法
+	 *
+	 * @param source comments
+	 * @return Map
+	 */
+	public Map<V,Set<E>> buildMinPathByDijkstra(V source){
+		// 已经找到最短路径的顶点k,k表示距离source的最短路径的顶点
+		Set<V> foundShortestPathVertex = new HashSet<V>();
+		// 尚未找到最短路径的顶点
+		Set<V> notFoundShortestPathVertex = new HashSet<V>();
+		
+		// 到达每个顶点的当前最短路径,算法会在遍历中修改该值，若路径不可达，则value为null
+		Map<V,Set<E>> result = new HashMap<V,Set<E>>();
+		
+		// 初始化foundShortestPathVertex集合
+		for (V v : getAllVertexes()) {
+			// source和source的距离是0，属于最短路径之一
+			if (source.equals(v)) {
+				foundShortestPathVertex.add(v);
+			} else {
+				notFoundShortestPathVertex.add(v);
+			}
+		}
+		// 初始化，若source与各顶点之间不存在直接路径，则result中为null;
+		for (V v : notFoundShortestPathVertex) {
+			E directEdge = getDirectEdge(source, v);
+			Set<E> shortest =null;
+			if (directEdge!=null) {
+				shortest = new HashSet<E>();
+				shortest.add(directEdge);
+			}
+			result.put(v, shortest);
+		}
+		// 从V-S中找到路径最短的顶点
+		int i =notFoundShortestPathVertex.size();
+		while (i>0) {
+			i--;
+			processMinPathByDijkstra(foundShortestPathVertex ,notFoundShortestPathVertex,result);
+		}
+		return result;
+	}
+
+	/**
+	 * 边的顶点是否在顶点集合中存在.
+	 *
+	 * @param e
+	 *            comments
+	 * @param vSet
+	 *            comments
+	 * @return true, if successful
+	 */
+	private boolean edgeContainsVertexes(E e, Set<V> vSet) {
+		for (V v : vSet) {
+			if (e.contains(v)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 获取构成最小生成树的最小权值的边.
+	 *
+	 * @param minTeeVSet
+	 *            最小生成树的顶点
+	 * @param minTeeVSetOther
+	 *            非最小生成树的顶点
+	 * @param minTeeESetOther
+	 *            非最小生成树的边
+	 * @return minCost
+	 */
+	private E getMinEdgeForPrim(Set<V> minTeeVSet, Set<V> minTeeVSetOther,
+			Set<E> minTeeESetOther) {
+		E min = null;
+		for (E e : minTeeESetOther) {
+			// 边的两个顶点必须一个是最小生成树的点，另一个是非最小生成树的顶点，即该边是连接最小生成树和非最小生成树的
+			if (edgeContainsVertexes(e, minTeeVSet)
+					&& edgeContainsVertexes(e, minTeeVSetOther)) {
+				if (min == null) {
+					min = e;
+				}
+				// 找到权值最小的边
+				if (e.getWeight() < min.getWeight()) {
+					min = e;
+				}
+			}
+		}
+		return min;
+	}
 	
 	
 	/**
@@ -395,6 +428,7 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 	 * 注意:
 	 * 1)对无向图来说也可以用来判断两个订单是否属于同一个连通分量，
 	 * 2)是对有向图来说，不能用来判断是否同一个连通分量，因为有可能在source 到target之间存在一个逆向的弧，使source与target不可达，但是却属于同一个连通分量
+	 * 3)注意该方法会修改顶点的内部访问状态，请谨慎使用。
 	 *
 	 * @param source 起点
 	 * @param target 终点
@@ -402,11 +436,23 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 	 * @return true, if successful
 	 */
 	public boolean checkReach(Vertex source,Vertex target,Collection<E> edgeSet){
-		if(isDirected()){
-			return checkReachForDirectived(source,target,edgeSet);
-		}else{
-			return checkReachForUnDirectived(source,target,edgeSet);
+		// 重置访问状态
+		for (E e : edgeSet) {
+			e.getHead().setVisited(false);
+			e.getTail().setVisited(false);
 		}
+		boolean result = false;
+		if(isDirected()){
+			result = checkReachForDirectived(source,target,edgeSet);
+		}else{
+			result = checkReachForUnDirectived(source,target,edgeSet);
+		}
+		// 重置访问状态
+		for (E e : edgeSet) {
+			e.getHead().setVisited(false);
+			e.getTail().setVisited(false);
+		}
+		return result;
 	}
 	
 	/**
@@ -472,49 +518,7 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 		return false;
 	}
 	
-	/**
-	 * 迪杰斯特拉算法求某顶点到其他顶点的最短路径.
-	 * 贪心算法
-	 *
-	 * @param source comments
-	 * @return Map
-	 */
-	public Map<V,Set<E>> dijkstra(V source){
-		// 已经找到最短路径的顶点k,k表示距离source的最短路径的顶点
-		Set<V> foundShortestPathVertex = new HashSet<V>();
-		// 尚未找到最短路径的顶点
-		Set<V> notFoundShortestPathVertex = new HashSet<V>();
-		
-		// 到达每个顶点的当前最短路径,算法会在遍历中修改该值，若路径不可达，则value为null
-		Map<V,Set<E>> result = new HashMap<V,Set<E>>();
-		
-		// 初始化foundShortestPathVertex集合
-		for (V v : getAllVertexes()) {
-			// source和source的距离是0，属于最短路径之一
-			if (source.equals(v)) {
-				foundShortestPathVertex.add(v);
-			} else {
-				notFoundShortestPathVertex.add(v);
-			}
-		}
-		// 初始化，若source与各顶点之间不存在直接路径，则result中为null;
-		for (V v : notFoundShortestPathVertex) {
-			E directEdge = getDirectEdge(source, v);
-			Set<E> shortest =null;
-			if (directEdge!=null) {
-				shortest = new HashSet<E>();
-				shortest.add(directEdge);
-			}
-			result.put(v, shortest);
-		}
-		// 从V-S中找到路径最短的顶点
-		int i =notFoundShortestPathVertex.size();
-		while (i>0) {
-			i--;
-			getMinPathByDijkstra(foundShortestPathVertex ,notFoundShortestPathVertex,result);
-		}
-		return result;
-	}
+
 	
 	/**
 	 * Gets minPath.
@@ -524,7 +528,7 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 	 * @param result comments
 	 * @return minPath
 	 */
-	public void getMinPathByDijkstra(Set<V> foundShortestPathVertex ,Set<V> notFoundShortestPathVertex,Map<V,Set<E>> result){
+	public void processMinPathByDijkstra(Set<V> foundShortestPathVertex ,Set<V> notFoundShortestPathVertex,Map<V,Set<E>> result){
 		// V-S集合中顶点
 		// 外层循环变量
 		V outerMinV =null; 
@@ -570,7 +574,6 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 				}
 			}
 		}
-		
 		// 本次大循环找打的最短路径
 		// step 4:更新最短路径和非最短路径集合  。更新集合S和V-S，(集合S 已经找到最短路径的顶点,集合V-S 尚未找到最短路径的顶点)
 		if (outerMinV!=null) {
@@ -649,6 +652,81 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 		System.out.print("  权值和为:"+weight);
 		System.out.println();
 	}
+	
+	
+	/**
+	 * 弗洛伊德算法支持负权值.
+	 */
+	public void floyd(){
+		List<V> allVertexes = getAllVertexes();
+		int count = allVertexes.size();
+		Map<V,Map<V,Set<E>>> result = new HashMap<V,Map<V,Set<E>>>();
+		// 初始化路径
+		for (V startV : allVertexes) {
+			for (V endV : allVertexes) {
+				if (startV.equals(endV)) {
+					continue;
+				}
+				// paths为start到达其他顶点的最短路径
+				Map<V,Set<E>> toOtherPaths = result.get(startV);
+				if(toOtherPaths==null){
+					toOtherPaths = new HashMap<V,Set<E>>();
+				}
+				// 通过直接路径，初始化
+				E directE = getDirectEdge(startV, endV);
+				if (directE!=null) {
+					Set<E> directPath = new HashSet<E>();
+					toOtherPaths.put(endV, directPath);
+					result.put(endV, toOtherPaths);
+				}
+			}
+		}
+		
+		//
+		for (V startV : allVertexes) {
+			for (V mid : allVertexes) {
+				if (startV.equals(mid)) {
+					continue;
+				}
+				for (V endV : allVertexes) {
+					if (startV.equals(endV)) {
+						continue;
+					}
+					// paths为start到达其他顶点的最短路径
+					Map<V,Set<E>> paths = result.get(startV);
+					if(paths==null){
+						paths = new HashMap<V,Set<E>>();
+					}
+					// path为null表示startV到endV不存在可达路径，path.size()==0表示startV和endV是同一个顶点
+					Set<E> path = getMinPathByFloyd(startV,endV);
+					paths.put(endV, path);
+				}
+			}
+		}
+
+	}
+	
+	/**
+	 * Gets minPath.
+	 *
+	 * @param startV comments
+	 * @param endV comments
+	 * @return minPath
+	 */
+	public Set<E> getMinPathByFloyd(V startV,V endV){
+		Set<E> result = new HashSet<E>();
+		if(!checkReach(startV, endV, getAllEdges())){
+			 return null;
+		}
+		E directE = getDirectEdge(startV, endV);
+		if (directE!=null) {
+			result.add(directE);
+		}
+		List<V> allV = getAllVertexes();
+		
+		return result;
+	}
+	
 	
 	
 }
