@@ -2,6 +2,8 @@ package core.datastruct.tree.binary.chain;
 
 import java.util.Arrays;
 
+import core.datastruct.tree.Tree;
+
 /**
  * The Class LinkTree.
  * 链式存储方式,三叉链表，在记录孩子结点的同时，记录双亲结点的地址
@@ -12,7 +14,7 @@ import java.util.Arrays;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class ChainBinaryTree {
+public class ChainBinaryTree extends Tree<ChainBinaryNode> {
 
 	/** root. */
 	private ChainBinaryNode root;
@@ -63,54 +65,7 @@ public class ChainBinaryTree {
 		// 返回叶子结点或根结点
 		return myRoot;
 	}
-	/**
-	 * 先序遍历.
-	 *
-	 * @param node 二叉树的根
-	 */
-	public void preOrderTraverse(ChainBinaryNode node) {
-		visit(node);
-		if (node.hasLeftChild()) {
-			preOrderTraverse(node.getLeftChild());
-		}
-		if (node.hasRightChild()) {
-			preOrderTraverse(node.getRightChild());
-		}
-
-	}
-
-	/**
-	 * 中序遍历.
-	 *
-	 * @param node 二叉树的根
-	 */
-	public void inOrderTraverse(ChainBinaryNode node) {
-		if (node.hasLeftChild()) {
-			inOrderTraverse(node.getLeftChild());
-		}
-		visit(node);
-		if (node.hasRightChild()) {
-			inOrderTraverse(node.getRightChild());
-		}
-	}
-
-	/**
-	 * 后续遍历.
-	 *
-	 * @param node 二叉树的根
-	 */
-	public void postOrderTraverse(ChainBinaryNode node) {
-		if (node.hasLeftChild()) {
-			postOrderTraverse(node.getLeftChild());
-		}
-		if (node.hasRightChild()) {
-			postOrderTraverse(node.getRightChild());
-		}
-		visit(node);
-	}
-	public void visit(ChainBinaryNode node){
-		System.out.println(node.getData());
-	}
+	
 
 	/**
 	 * insertLeftChild.
@@ -205,6 +160,11 @@ public class ChainBinaryTree {
 		}
 		return false;
 	}
+	
+	@Override
+	public void visit(ChainBinaryNode n) {
+		System.out.println(n.getData());
+	}
 
 	/**
 	 * The main method.
@@ -233,6 +193,8 @@ public class ChainBinaryTree {
 //		lt.postOrderTraverse(lt.getRoot());
 
 	}
+
+	
 
 
 }

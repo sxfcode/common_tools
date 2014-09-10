@@ -1,5 +1,7 @@
 package core.datastruct.tree.binary.chain;
 
+import core.datastruct.tree.Node;
+
 /**
  * The Class LinkNode.
  *	链式存储方式,三叉链表，在记录孩子结点的同时，记录双亲结点的地址.
@@ -10,7 +12,7 @@ package core.datastruct.tree.binary.chain;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class ChainBinaryNode {
+public class ChainBinaryNode extends Node{
 
 	/** data. */
 	private Object data;
@@ -100,6 +102,18 @@ public class ChainBinaryNode {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void setLeftChild(Node leftChild) {
+	}
+
+	@Override
+	public void setRightChild(Node rightChild) {
+	}
+
+	@Override
+	public void setParent(Node parent) {
 	}
 
 }

@@ -212,10 +212,8 @@ public abstract class Graph<V extends Vertex, E extends Edge> {
 				Vertex[] vs =e.getVertexes();
 				// 是否属于同一个连通分量,若属于同一个连通分量，则跳过，检查下一条边
 				if(checkReach(vs[0], vs[1], minTeeESet)){
-					System.out.println(vs[0].getData()+","+vs[1].getData()+"连通");
 					continue;
 				}else{
-					System.out.println(vs[0].getData()+","+vs[1].getData()+"未连通");
 					minTeeESet.add(e);
 				}
 			}else{
