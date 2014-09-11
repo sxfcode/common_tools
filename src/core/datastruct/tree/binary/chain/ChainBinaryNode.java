@@ -1,6 +1,6 @@
 package core.datastruct.tree.binary.chain;
 
-import core.datastruct.tree.Node;
+import core.datastruct.tree.binary.BinaryNode;
 
 /**
  * The Class LinkNode.
@@ -12,19 +12,28 @@ import core.datastruct.tree.Node;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class ChainBinaryNode extends Node{
+public class ChainBinaryNode extends BinaryNode{
 
-	/** data. */
+	/** 数据. */
 	private Object data;
 
-	/** leftChild. */
+	/** 左孩子. */
 	private ChainBinaryNode leftChild;
 
-	/** rightChild. */
+	/** 右孩子. */
 	private ChainBinaryNode rightChild;
 
-	/** parentChild. */
+	/** 双亲. */
 	private ChainBinaryNode parent;
+	
+	/** 权值. */
+	private Integer weight;
+	
+	/** 编号. */
+	private Integer number;
+	
+	/** 结点编码-用于生成霍夫曼编码. */
+	private String code;
 
 	/**
 	 * Instantiates a new LinkNode.
@@ -36,34 +45,64 @@ public class ChainBinaryNode extends Node{
 		this.data = data;
 	}
 
+	/* (non-Javadoc)
+	 * @see core.datastruct.tree.Node#getData()
+	 */
 	public Object getData() {
 		return data;
 	}
 
+	/* (non-Javadoc)
+	 * @see core.datastruct.tree.Node#setData(java.lang.Object)
+	 */
 	public void setData(Object data) {
 		this.data = data;
 	}
 
+	/* (non-Javadoc)
+	 * @see core.datastruct.tree.Node#getLeftChild()
+	 */
 	public ChainBinaryNode getLeftChild() {
 		return leftChild;
 	}
 
+	/**
+	 * Sets leftChild.
+	 *
+	 * @param leftChild comments
+	 */
 	public void setLeftChild(ChainBinaryNode leftChild) {
 		this.leftChild = leftChild;
 	}
 
+	/* (non-Javadoc)
+	 * @see core.datastruct.tree.Node#getRightChild()
+	 */
 	public ChainBinaryNode getRightChild() {
 		return rightChild;
 	}
 
+	/**
+	 * Sets rightChild.
+	 *
+	 * @param rightChild comments
+	 */
 	public void setRightChild(ChainBinaryNode rightChild) {
 		this.rightChild = rightChild;
 	}
 
+	/* (non-Javadoc)
+	 * @see core.datastruct.tree.Node#getParent()
+	 */
 	public ChainBinaryNode getParent() {
 		return parent;
 	}
 
+	/**
+	 * Sets parent.
+	 *
+	 * @param parent comments
+	 */
 	public void setParent(ChainBinaryNode parent) {
 		this.parent = parent;
 	}
@@ -104,16 +143,72 @@ public class ChainBinaryNode extends Node{
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see core.datastruct.tree.Node#setLeftChild(core.datastruct.tree.Node)
+	 */
 	@Override
-	public void setLeftChild(Node leftChild) {
+	public void setLeftChild(BinaryNode leftChild) {
+		this.leftChild = (ChainBinaryNode)leftChild;
+	}
+
+	/* (non-Javadoc)
+	 * @see core.datastruct.tree.Node#setRightChild(core.datastruct.tree.Node)
+	 */
+	@Override
+	public void setRightChild(BinaryNode rightChild) {
+		this.rightChild = (ChainBinaryNode)rightChild;
+	}
+
+	/* (non-Javadoc)
+	 * @see core.datastruct.tree.Node#setParent(core.datastruct.tree.Node)
+	 */
+	@Override
+	public void setParent(BinaryNode parent) {
+		this.parent = (ChainBinaryNode)parent;
+	}
+
+	/* (non-Javadoc)
+	 * @see core.datastruct.tree.Node#getWeight()
+	 */
+	public Integer getWeight() {
+		return weight;
+	}
+
+	/* (non-Javadoc)
+	 * @see core.datastruct.tree.Node#setWeight(java.lang.Integer)
+	 */
+	public void setWeight(Integer weight) {
+		this.weight = weight;
+	}
+
+	/* (non-Javadoc)
+	 * @see core.datastruct.tree.Node#getNumber()
+	 */
+	public Integer getNumber() {
+		return number;
+	}
+
+	/* (non-Javadoc)
+	 * @see core.datastruct.tree.Node#setNumber(java.lang.Integer)
+	 */
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
+	
+	
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	@Override
-	public void setRightChild(Node rightChild) {
+	public String toString() {
+		return "ChainBinaryNode [data=" + data + ", weight=" + weight
+				+ ", code=" + code + "]";
 	}
-
-	@Override
-	public void setParent(Node parent) {
-	}
-
+	
 }

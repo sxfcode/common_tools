@@ -1,4 +1,4 @@
-package core.datastruct.tree;
+package core.datastruct.tree.binary;
 
 
 /**
@@ -10,7 +10,7 @@ package core.datastruct.tree;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public abstract class Node {
+public abstract class BinaryNode {
 	
 	/**
 	 * Gets data.
@@ -31,42 +31,75 @@ public abstract class Node {
 	 *
 	 * @return leftChild
 	 */
-	public abstract Node getLeftChild() ;
+	public abstract BinaryNode getLeftChild() ;
 	
 	/**
 	 * Sets leftChild.
 	 *
 	 * @param leftChild comments
 	 */
-	public abstract void setLeftChild(Node leftChild) ;
+	public abstract void setLeftChild(BinaryNode leftChild) ;
 	
 	/**
 	 * Gets rightChild.
 	 *
 	 * @return rightChild
 	 */
-	public abstract Node getRightChild() ;
+	public abstract BinaryNode getRightChild() ;
 	
 	/**
 	 * Sets rightChild.
 	 *
 	 * @param rightChild comments
 	 */
-	public abstract void setRightChild(Node rightChild);
+	public abstract void setRightChild(BinaryNode rightChild);
 
 	/**
 	 * Gets parent.
 	 *
 	 * @return parent
 	 */
-	public abstract Node getParent();
+	public abstract BinaryNode getParent();
 	
 	/**
 	 * Sets parent.
 	 *
 	 * @param parent comments
 	 */
-	public abstract void setParent(Node parent) ;
+	public abstract void setParent(BinaryNode parent) ;
+	
+	/**
+	 * Gets weight.
+	 *
+	 * @return weight
+	 */
+	public abstract Integer getWeight() ;
+
+	/**
+	 * Sets weight.
+	 *
+	 * @param weight comments
+	 */
+	public abstract void setWeight(Integer weight) ;
+
+	/**
+	 * Gets number.
+	 *
+	 * @return number
+	 */
+	public abstract Integer getNumber() ;
+
+	/**
+	 * Sets number.
+	 *
+	 * @param number comments
+	 */
+	public abstract void setNumber(Integer number);
+	
+	
+	public abstract String getCode();
+
+	public abstract void setCode(String code);
 
 	/**
 	 * hasLeftChild.

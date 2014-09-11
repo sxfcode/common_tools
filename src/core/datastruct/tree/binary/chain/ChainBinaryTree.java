@@ -1,8 +1,11 @@
 package core.datastruct.tree.binary.chain;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-import core.datastruct.tree.Tree;
+import core.datastruct.tree.binary.BinaryNode;
+import core.datastruct.tree.binary.BinaryTree;
 
 /**
  * The Class LinkTree.
@@ -14,7 +17,7 @@ import core.datastruct.tree.Tree;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class ChainBinaryTree extends Tree<ChainBinaryNode> {
+public class ChainBinaryTree extends BinaryTree<ChainBinaryNode> {
 
 	/** root. */
 	private ChainBinaryNode root;
@@ -126,46 +129,52 @@ public class ChainBinaryTree extends Tree<ChainBinaryNode> {
 	 * @return LinkNode
 	 */
 	public ChainBinaryNode search(Object nodeValue) {
-		// todo
 		return null;
 	}
 
-	/**
-	 * 获取根结点.
-	 *
-	 * @return root
-	 */
+
+	
+	@Override
+	public void visit(ChainBinaryNode n) {
+		System.out.print(n.getData()+",");
+	}
+
+	
+	@Override
 	public ChainBinaryNode getRoot() {
 		return root;
 	}
 
-	/**
-	 * 求树的深度.
-	 *
-	 * @return depth
-	 */
-	public int getDepth() {
-		// todo
-		return -1;
+	@Override
+	public void setRoot(ChainBinaryNode root) {
+		this.root = root;
 	}
 
-	/**
-	 * 判断是否是空树.
-	 *
-	 * @return true, if is empty
-	 */
-	public boolean isEmpty() {
-		if (root == null) {
-			return true;
+	@Override
+	public int getDepth() {
+		return 0;
+	}
+
+	@Override
+	public List<ChainBinaryNode> buildHuffmanNodes(int[] sourceArray) {
+		List<ChainBinaryNode> nodes = new ArrayList<ChainBinaryNode>();
+		for (int i : sourceArray) {
+			ChainBinaryNode node = new ChainBinaryNode(null);
+			node.setWeight(i);
+			node.setData(i);
+			nodes.add(node);
 		}
-		return false;
+		return nodes;
+	}
+
+	@Override
+	public ChainBinaryNode buildHuffmanNode(int sourceWeight) {
+		ChainBinaryNode node = new ChainBinaryNode(null);
+		node.setWeight(sourceWeight);
+		node.setData(sourceWeight);
+		return node;
 	}
 	
-	@Override
-	public void visit(ChainBinaryNode n) {
-		System.out.println(n.getData());
-	}
-
 	/**
 	 * The main method.
 	 *
@@ -187,6 +196,25 @@ public class ChainBinaryTree extends Tree<ChainBinaryNode> {
 		lt.init(preArr,inArr);
 		System.out.println("先根遍历");
 		lt.preOrderTraverse(lt.getRoot());
+		
+		System.out.println("查找"+lt.search("4", lt.getRoot()));
+		
+		
+		int[] huffmanArr = new int[]{1,2,3,4};
+		ChainBinaryTree huffmanTree = new ChainBinaryTree();
+		huffmanTree.buildHuffmanTree(huffmanArr);
+		System.out.println();
+		System.out.println("先根遍历");
+		huffmanTree.preOrderTraverse(huffmanTree.getRoot());
+		System.out.println();
+		System.out.println("中根遍历");
+		huffmanTree.inOrderTraverse(huffmanTree.getRoot());
+		
+		System.out.println("查找"+huffmanTree.search(4, huffmanTree.getRoot()));
+		BinaryNode node = huffmanTree.search(2, huffmanTree.getRoot());
+		System.out.println("霍夫曼编码:"+huffmanTree.findHuffmanCode(node));
+		System.out.println("霍夫曼编码结点:"+huffmanTree.findHuffmanCode("111"));
+		
 //		System.out.println("中根遍历");
 //		lt.inOrderTraverse(lt.getRoot());
 //		System.out.println("后根遍历");
@@ -195,6 +223,6 @@ public class ChainBinaryTree extends Tree<ChainBinaryNode> {
 	}
 
 	
-
-
+	
+	
 }
