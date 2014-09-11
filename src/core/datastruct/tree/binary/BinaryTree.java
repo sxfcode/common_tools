@@ -113,7 +113,7 @@ public abstract class BinaryTree<N extends BinaryNode> {
 
 			// 排序
 			Collections.sort(nodes, comparator);
-		}
+		}                                                                                                                                                                                                                                                                                   
 		// 设置根节点
 		setRoot(nodes.get(0));
 	}
