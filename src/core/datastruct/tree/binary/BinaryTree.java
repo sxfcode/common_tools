@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import core.datastruct.tree.binary.chain.ChainBinaryNode;
+
 /**
  * The Class Tree. 
  * 二叉树的抽象类,提供一些常用方法的抽象实现, 例如：先序遍历，中序遍历，后续遍历
@@ -234,6 +236,28 @@ public abstract class BinaryTree<N extends BinaryNode> {
 			postOrderTraverse((N) node.getRightChild());
 		}
 		visit(node);
+	}
+	
+	/**
+	 * 向parentNode结点插入左孩子.
+	 *
+	 * @param parentNode comments
+	 * @param targetNode comments
+	 */
+	public void insertLeftChild(N parentNode, N targetNode) {
+		targetNode.setParent(parentNode);
+		parentNode.setLeftChild(targetNode);
+	}
+
+	/**
+	 * 向parentNode结点插入右孩子.
+	 *
+	 * @param parentNode comments
+	 * @param targetNode comments
+	 */
+	public void insertRightChild(N parentNode, N targetNode) {
+		targetNode.setParent(parentNode);
+		parentNode.setRightChild(targetNode);
 	}
 
 }

@@ -83,12 +83,16 @@ public class BinarySearchNode extends BinaryNode  {
 
 	@Override
 	public void setLeftChild(BinaryNode leftChild) {
-		this.leftChild = (BinarySearchNode)leftChild;
+		if(leftChild!=null){
+			this.leftChild = (BinarySearchNode)leftChild;
+		}
 	}
 
 	@Override
 	public void setRightChild(BinaryNode rightChild) {
-		this.rightChild = (BinarySearchNode) rightChild;
+		if (rightChild!=null) {
+			this.rightChild = (BinarySearchNode) rightChild;	
+		}
 	}
 
 	@Override

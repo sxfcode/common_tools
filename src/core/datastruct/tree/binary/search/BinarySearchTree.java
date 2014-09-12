@@ -18,21 +18,51 @@ public class BinarySearchTree extends BinaryTree<BinarySearchNode> {
 			this.root = node;
 		}
 		BinarySearchNode current = getRoot();
-		
-		// no change
-		if (node.compareTo(getRoot())==0) {
+		while (true) {
+			// no change
+			if (node.compareTo(current)==0) {
+				break;
+				// node小于当前结点
+			}else if (node.compareTo(current)<0) {
+				if (current.hasLeftChild()) {
+					current = current.getLeftChild();
+					continue;
+				}else{
+					insertLeftChild(current, node);
+					break;
+				}
+				// node大于当前结点
+			}else {
+				if (current.hasRightChild()) {
+					current =current.getRightChild();
+					continue;
+				}else{
+					insertRightChild(current, node);
+					break;
+				}
+			}
+		}
+	}
+	
+	public void deleteNode(BinarySearchNode node){
+		if (node.isLeaf()) {
+			BinarySearchNode parent = node.getParent();
+			if (node.equals(parent.getLeftChild())) {
+				parent.setLeftChild(null);
+			}else if(node.equals(parent.getRightChild())){
+				parent.setRightChild(null);
+			}
+			node.setParent(null);
+		}else if(node.hasLeftChild()&&node.hasRightChild()) {
 			
-		}else if (node.compareTo(getRoot())<0) {
-			if (current.hasLeftChild()) {
-			}else{
-			}
-		}else {
-			if (current.hasRightChild()) {
-			}else{
-			}
+		}else{
+			
 		}
 		
 	}
+	
+	
+	
 	
 
 	public BinarySearchNode getRoot() {
