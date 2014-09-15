@@ -19,6 +19,9 @@ import core.datastruct.tree.binary.chain.ChainBinaryNode;
  */
 @SuppressWarnings("unchecked")
 public abstract class BinaryTree<N extends BinaryNode> {
+	
+	/** pre. */
+	private N pre;
 
 	/**
 	 * 获取根结点.
@@ -181,9 +184,9 @@ public abstract class BinaryTree<N extends BinaryNode> {
 	}
 	
 	/**
-	 * 根据霍夫曼编码查找结点
+	 * 根据霍夫曼编码查找结点.
 	 *
-	 * @param node comments
+	 * @param huffmanCode comments
 	 * @return huffmanCode
 	 */
 	public BinaryNode findHuffmanCode(String huffmanCode){
@@ -258,6 +261,34 @@ public abstract class BinaryTree<N extends BinaryNode> {
 	public void insertRightChild(N parentNode, N targetNode) {
 		targetNode.setParent(parentNode);
 		parentNode.setRightChild(targetNode);
+	}
+	
+	/**
+	 * 中序线索化.
+	 */
+	public void doInThread(){
+		inOrderTraverseThread(getRoot());
+	}
+	
+	/**
+	 * 通过中序遍历，线索化.
+	 *
+	 * @param node comments
+	 */
+	private void inOrderTraverseThread(N node) {
+		if (node.hasLeftChild()) {
+			inOrderTraverseThread((N) node.getLeftChild());
+		}
+		// 设置前置和后继结点
+		if (pre!=null) {
+			pre.setNext(node);
+			node.setPre(pre);
+		}
+		pre = node;
+		
+		if (node.hasRightChild()) {
+			inOrderTraverseThread((N) node.getRightChild());
+		}
 	}
 
 }

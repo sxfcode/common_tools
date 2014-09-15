@@ -1,6 +1,7 @@
 package core.datastruct.tree.binary.chain;
 
 import core.datastruct.tree.binary.BinaryNode;
+import core.datastruct.tree.binary.search.BinarySearchNode;
 
 /**
  * The Class LinkNode.
@@ -25,6 +26,12 @@ public class ChainBinaryNode extends BinaryNode{
 
 	/** 双亲. */
 	private ChainBinaryNode parent;
+	
+	/** 前驱. */
+	private ChainBinaryNode pre;
+	
+	/** 后继. */
+	private ChainBinaryNode next;
 	
 	/** 权值. */
 	private Integer weight;
@@ -209,6 +216,26 @@ public class ChainBinaryNode extends BinaryNode{
 	public String toString() {
 		return "ChainBinaryNode [data=" + data + ", weight=" + weight
 				+ ", code=" + code + "]";
+	}
+
+	@Override
+	public BinaryNode getPre() {
+		return pre;
+	}
+
+	@Override
+	public void setPre(BinaryNode pre) {
+		this.pre = (ChainBinaryNode)pre;
+	}
+
+	@Override
+	public BinaryNode getNext() {
+		return next;
+	}
+
+	@Override
+	public void setNext(BinaryNode next) {
+		this.next = (ChainBinaryNode)next;
 	}
 	
 }

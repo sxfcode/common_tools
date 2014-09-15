@@ -1,6 +1,7 @@
 package core.datastruct.tree.binary;
 
 
+
 /**
  * The Class Node.
  * 树的抽象节点
@@ -100,6 +101,15 @@ public abstract class BinaryNode {
 	public abstract String getCode();
 
 	public abstract void setCode(String code);
+	
+	
+	public abstract BinaryNode getPre();
+
+	public abstract void setPre(BinaryNode pre);
+
+	public abstract BinaryNode getNext();
+
+	public abstract void setNext(BinaryNode next) ;
 
 	/**
 	 * hasLeftChild.
