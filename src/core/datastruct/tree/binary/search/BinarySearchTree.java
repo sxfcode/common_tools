@@ -1,5 +1,6 @@
 package core.datastruct.tree.binary.search;
 
+import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +92,8 @@ public class BinarySearchTree extends BinaryTree<BinarySearchNode> {
 			}
 			node.setParent(null);
 		} else if (node.hasLeftChild() && node.hasRightChild()) {
+			// 注意:需要考虑node为根节点，next为node右结点的情况
+			
 			// step 1:中序线索化
 			this.doInThread();
 			BinarySearchNode next = (BinarySearchNode)node.getNext();
@@ -106,17 +109,25 @@ public class BinarySearchTree extends BinaryTree<BinarySearchNode> {
 			// step 3:后继结点代替原结点
 			next.setLeftChild(oldLeftChild);
 			oldLeftChild.setParent(next);
-			next.setRightChild(oldRightChild);
-			oldRightChild.setParent(next);
+			// 有可能node的右孩子=next
+			if (!next.equals(oldRightChild)) {
+				next.setRightChild(oldRightChild);
+				oldRightChild.setParent(next);
+			}
+			
 			// 原结点存在父结点
 			next.setParent(oldParent);
-			if(node.equals(oldParent.getLeftChild())){
-				oldParent.setLeftChild(next);
-			}else if(node.equals(oldParent.getRightChild())){
-				oldParent.setRightChild(next);
+			if (oldParent!=null) {
+				if(node.equals(oldParent.getLeftChild())){
+					oldParent.setLeftChild(next);
+				}else if(node.equals(oldParent.getRightChild())){
+					oldParent.setRightChild(next);
+				}
 			}
 			// step 4: 原来X_SUCC结点的双亲结点指向X_SUCC的指针指向X_SUCC的右孩子
-			nextParent.setLeftChild(nextRightChild);
+			if (!node.equals(nextParent)) {
+				nextParent.setLeftChild(nextRightChild);
+			}
 			
 			// step 5:判断被删除的结点是否是根节点
 			if (node.equals(getRoot())) {
@@ -226,14 +237,17 @@ public class BinarySearchTree extends BinaryTree<BinarySearchNode> {
 	 *            the arguments
 	 */
 	public static void main(String[] args) {
-		int[] sourceArray = new int[] { 3, 1, 2, 4, 5 };
+		//int[] sourceArray = new int[] { 3, 1, 2, 4, 5 };
+		int[] sourceArray = new int[] { 5,2,7,1,3,6,8 };
 		BinarySearchTree bst = new BinarySearchTree();
 		bst.init(sourceArray);
-//		bst.doInThread();
+		bst.doInThread();
 //		bst.inOrderTraverse(bst.getRoot());
-		BinarySearchNode beDelete =(BinarySearchNode)bst.search("3", bst.getRoot());
+		BinarySearchNode beDelete =(BinarySearchNode)bst.search(5, bst.getRoot());
 		bst.deleteNode(beDelete);
 		bst.inOrderTraverse(bst.getRoot());
+		System.out.println();
+		System.out.println(bst.getRoot().getData());
 
 	}
 
