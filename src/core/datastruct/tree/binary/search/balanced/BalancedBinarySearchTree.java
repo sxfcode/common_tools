@@ -1,24 +1,31 @@
-package core.datastruct.tree.binary.search;
+package core.datastruct.tree.binary.search.balanced;
 
-import java.io.ObjectInputStream.GetField;
-import java.util.ArrayList;
-import java.util.List;
-
-import core.datastruct.tree.binary.BinaryTree;
+import core.datastruct.tree.binary.search.BinarySearchNode;
+import core.datastruct.tree.binary.search.BinarySearchTree;
 
 /**
- * The Class BinarySearchTree.
- *
- * @date 2014-9-15 17:43:59
+ * The Class BalancedBinarySearchTree.
+ * 平衡二叉查找树.
+ * AVL树
+ * BBST
+ * @date 2014-9-16 17:21:03
  * @author 宿晓斐
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class BinarySearchTree extends BinaryTree<BinarySearchNode> {
-
-	/** root. */
-	private BinarySearchNode root;
-
+public class BalancedBinarySearchTree extends BinarySearchTree{
+	
+	/**
+	 * 四种情况
+	 * LL 右旋
+	 * RR 左旋
+	 * LR 左旋，然后右旋
+	 * RL 右旋，然后左旋.
+	 */
+	public void doBalanced(){
+		
+	}
+	
 	/**
 	 * init.
 	 *
@@ -41,7 +48,8 @@ public class BinarySearchTree extends BinaryTree<BinarySearchNode> {
 	 */
 	public void addNode(BinarySearchNode node) {
 		if (getRoot() == null) {
-			this.root = node;
+			setRoot(node);
+			return;
 		}
 		BinarySearchNode current = getRoot();
 		while (true) {
@@ -157,97 +165,6 @@ public class BinarySearchTree extends BinaryTree<BinarySearchNode> {
 			}
 		}
 
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see core.datastruct.tree.binary.BinaryTree#getRoot()
-	 */
-	public BinarySearchNode getRoot() {
-		return root;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * core.datastruct.tree.binary.BinaryTree#setRoot(core.datastruct.tree.binary
-	 * .BinaryNode)
-	 */
-	public void setRoot(BinarySearchNode root) {
-		this.root = root;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see core.datastruct.tree.binary.BinaryTree#getDepth()
-	 */
-	public int getDepth() {
-		return 0;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see core.datastruct.tree.binary.BinaryTree#buildHuffmanNodes(int[])
-	 */
-	@Override
-	public List<BinarySearchNode> buildHuffmanNodes(int[] sourceArray) {
-		List<BinarySearchNode> nodes = new ArrayList<BinarySearchNode>();
-		for (int i : sourceArray) {
-			BinarySearchNode node = new BinarySearchNode();
-			node.setWeight(i);
-			node.setData(i);
-			nodes.add(node);
-		}
-		return nodes;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see core.datastruct.tree.binary.BinaryTree#buildHuffmanNode(int)
-	 */
-	@Override
-	public BinarySearchNode buildHuffmanNode(int sourceWeight) {
-		BinarySearchNode node = new BinarySearchNode();
-		node.setWeight(sourceWeight);
-		node.setData(sourceWeight);
-		return node;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * core.datastruct.tree.binary.BinaryTree#visit(core.datastruct.tree.binary
-	 * .BinaryNode)
-	 */
-	@Override
-	public void visit(BinarySearchNode n) {
-		System.out.print(n.getData() + ",");
-	}
-
-	/**
-	 * The main method.
-	 *
-	 * @param args
-	 *            the arguments
-	 */
-	public static void main(String[] args) {
-		//int[] sourceArray = new int[] { 3, 1, 2, 4, 5 };
-		int[] sourceArray = new int[] { 5,2,7,1,3,6,8 };
-		BinarySearchTree bst = new BinarySearchTree();
-		bst.init(sourceArray);
-		bst.doInThread();
-//		bst.inOrderTraverse(bst.getRoot());
-		BinarySearchNode beDelete =(BinarySearchNode)bst.search(5, bst.getRoot());
-		bst.deleteNode(beDelete);
-		bst.inOrderTraverse(bst.getRoot());
-		System.out.println();
-		System.out.println(bst.getRoot().getData());
 	}
 
 }
