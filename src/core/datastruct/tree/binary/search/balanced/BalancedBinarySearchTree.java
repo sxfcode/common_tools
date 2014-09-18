@@ -4,8 +4,8 @@ import core.datastruct.tree.binary.search.BinarySearchNode;
 import core.datastruct.tree.binary.search.BinarySearchTree;
 
 /**
- * The Class BalancedBinarySearchTree.
- *  平衡二叉查找树. AVL树 BBST
+ * The Class BalancedBinarySearchTree. 平衡二叉查找树. AVL树
+ * BBST,AVL树，是通过归纳得出树，应该存在更简单的平衡方式。
  * 
  * @date 2014-9-16 17:21:03
  * @author 宿晓斐
@@ -13,62 +13,162 @@ import core.datastruct.tree.binary.search.BinarySearchTree;
  * @since jdk 1.6,common_tools 1.0
  */
 public class BalancedBinarySearchTree extends BinarySearchTree {
-	
-	/** 调整类型左左. */
-	private static final int  ROTATE_TYPE_LL = 0;
-	
-	/** 调整类型左右. */
-	private static final int  ROTATE_TYPE_LR = 1;
-	
-	/** 调整类型右右. */
-	private static final int  ROTATE_TYPE_RR = 2;
-	
-	/** 调整类型右左. */
-	private static final int  ROTATE_TYPE_RL = 3;
 
+	/** 调整类型左左. */
+	private static final int ROTATE_TYPE_LL = 0;
+
+	/** 调整类型左右. */
+	private static final int ROTATE_TYPE_LR = 1;
+
+	/** 调整类型右右. */
+	private static final int ROTATE_TYPE_RR = 2;
+
+	/** 调整类型右左. */
+	private static final int ROTATE_TYPE_RL = 3;
 
 	/**
-	 * 对树进行平衡操作
-	 *  四种情况 LL 右旋 RR 左旋 LR 左旋，然后右旋 RL 右旋，然后左旋..
+	 * 对树进行平衡操作 四种情况 LL 右旋 RR 左旋 LR 左旋，然后右旋 RL 右旋，然后左旋..
 	 *
-	 * @param node 被添加的结点
+	 * @param node
+	 *            被添加的结点
 	 */
 	public void doBalanced(BinarySearchNode node) {
+
 		int rotateType = -1;
+		// 插入点的父节点
 		BinarySearchNode parent = node.getParent();
+		// 插入点的祖先结点
 		BinarySearchNode grandpa = parent.getParent();
+		BinarySearchNode parentRightChild = parent.getRightChild();
+		BinarySearchNode parentLeftChild = parent.getLeftChild();
+		BinarySearchNode grandpaParent = grandpa.getParent();
+		BinarySearchNode leftChild = node.getLeftChild();
+		BinarySearchNode rightChild = node.getRightChild();
+
 		if (parent.equals(grandpa.getLeftChild())) {
 			if (node.equals(parent.getLeftChild())) {
 				rotateType = ROTATE_TYPE_LL;
-			}else{
+			} else {
 				rotateType = ROTATE_TYPE_LR;
 			}
-		}else{
+		} else {
 			if (node.equals(parent.getLeftChild())) {
 				rotateType = ROTATE_TYPE_RL;
-			}else{
+			} else {
 				rotateType = ROTATE_TYPE_RR;
 			}
 		}
-		
+		System.out.println("调整平衡:" + node.getData() + ",平衡类型:" + rotateType+",调整元素:"+node.getData()+","+parent.getData()+","+grandpa.getData());
+
 		switch (rotateType) {
 		case ROTATE_TYPE_LL:
-			
+			// 祖先元素和双亲元素交换位置
+			parent.setParent(grandpaParent);
+			if (grandpaParent != null) {
+				if (grandpa.equals(grandpaParent.getLeftChild())) {
+					grandpaParent.setLeftChild(parent);
+				} else {
+					grandpaParent.setRightChild(parent);
+				}
+			}
+			parent.setRightChild(grandpa);
+			grandpa.setParent(parent);
+
+			// 双亲元素的右子树成为祖先元素的左子树
+			grandpa.setLeftChild(parentRightChild);
+			if (parentRightChild != null) {
+				parentRightChild.setParent(grandpa);
+			}
+			// 可能影响到根元素
+			if (grandpa.equals(getRoot())) {
+				setRoot(parent);
+			}
 			break;
 		case ROTATE_TYPE_LR:
-			
+			// 左旋+右旋,直接更换元素
+			node.setParent(grandpaParent);
+			if (grandpaParent != null) {
+				if (grandpa.equals(grandpaParent.getLeftChild())) {
+					grandpaParent.setLeftChild(node);
+				} else {
+					grandpaParent.setRightChild(node);
+				}
+			}
+			node.setLeftChild(parent);
+			parent.setParent(node);
+			node.setRightChild(grandpa);
+			grandpa.setParent(node);
+
+			parent.setRightChild(leftChild);
+			if (leftChild!=null) {
+				leftChild.setParent(parent);
+			}
+			grandpa.setLeftChild(rightChild);
+			if (rightChild!=null) {
+				rightChild.setParent(grandpa);
+			}
+			// 可能影响到根元素
+			if (grandpa.equals(getRoot())) {
+				setRoot(node);
+			}
 			break;
 		case ROTATE_TYPE_RL:
-			
+			// 左旋+右旋,直接更换元素
+			node.setParent(grandpaParent);
+			if (grandpaParent != null) {
+				if (grandpa.equals(grandpaParent.getLeftChild())) {
+					grandpaParent.setLeftChild(node);
+				} else {
+					grandpaParent.setRightChild(node);
+				}
+			}
+			node.setLeftChild(grandpa);
+			parent.setParent(node);
+			node.setRightChild(parent);
+			grandpa.setParent(node);
+
+			grandpa.setRightChild(leftChild);
+			if (leftChild!=null) {
+				leftChild.setParent(grandpa);
+			}
+			parent.setLeftChild(rightChild);
+			if (rightChild!=null) {
+				rightChild.setParent(parent);
+			}
+			// 可能影响到根元素
+			if (grandpa.equals(getRoot())) {
+				setRoot(node);
+			}
+
 			break;
 		case ROTATE_TYPE_RR:
-			
+			// 祖先元素和双亲元素交换位置
+			parent.setParent(grandpaParent);
+			if (grandpaParent != null) {
+				if (grandpa.equals(grandpaParent.getLeftChild())) {
+					grandpaParent.setLeftChild(parent);
+				} else {
+					grandpaParent.setRightChild(parent);
+				}
+			}
+			parent.setLeftChild(grandpa);
+			grandpa.setParent(parent);
+
+			// 双亲元素的左子树成为祖先元素的右子树
+			grandpa.setRightChild(parentLeftChild);
+			if (parentLeftChild != null) {
+				parentLeftChild.setParent(grandpa);
+			}
+
+			// 可能影响到根元素
+			if (grandpa.equals(getRoot())) {
+				setRoot(parent);
+			}
 			break;
 
 		default:
 			break;
 		}
-		
 
 	}
 
@@ -80,7 +180,7 @@ public class BalancedBinarySearchTree extends BinarySearchTree {
 	 */
 	public void init(int[] sourceArray) {
 		for (int i = 0; i < sourceArray.length; i++) {
-			BinarySearchNode b = new BinarySearchNode();
+			BalancedBinarySearchNode b = new BalancedBinarySearchNode();
 			b.setData(sourceArray[i]);
 			addNode(b);
 		}
@@ -122,10 +222,18 @@ public class BalancedBinarySearchTree extends BinarySearchTree {
 				}
 			}
 		}
+		// 重新构建结点的深度和平衡因子
+		reCheckDepth();
+		reCheckBalanceFactor();
+		// 检查平衡因子，若平衡因子的绝对值大于1，则开始调整
 		if (node.getParent() != null && node.getParent().getParent() != null) {
-			doBalanced(node);
+			BalancedBinarySearchNode ancestor = (BalancedBinarySearchNode) node
+					.getParent().getParent();
+			if (ancestor.getBalanceFactor() < -1
+					|| ancestor.getBalanceFactor() > 1) {
+				doBalanced(node);
+			}
 		}
-
 	}
 
 	/**
@@ -215,7 +323,111 @@ public class BalancedBinarySearchTree extends BinarySearchTree {
 				}
 			}
 		}
+	}
 
+	/**
+	 * 重新构建所有结点的深度.
+	 */
+	public void reCheckDepth() {
+		getDepth((BalancedBinarySearchNode) getRoot());
+	}
+
+	/**
+	 * reCheckBalanceFactor.
+	 */
+	public void reCheckBalanceFactor() {
+		getALLBalanceFactor((BalancedBinarySearchNode) getRoot());
+	}
+
+	/**
+	 * 为某结点及其子结点生成平衡因子
+	 *
+	 * @param bbsn
+	 *            comments
+	 * @return ALLBalanceFactor
+	 */
+	public void getALLBalanceFactor(BalancedBinarySearchNode bbsn) {
+		bbsn.setBalanceFactor(getBalanceFactor(bbsn));
+		if (bbsn.hasLeftChild()) {
+			getALLBalanceFactor((BalancedBinarySearchNode) bbsn.getLeftChild());
+		}
+		if (bbsn.hasRightChild()) {
+			getALLBalanceFactor((BalancedBinarySearchNode) bbsn.getRightChild());
+		}
+	}
+
+	/**
+	 * 计算平衡因子，左子树的深度减去右子树的深度.
+	 *
+	 * @param bbsn
+	 *            comments
+	 * @return balanceFactor
+	 */
+	public int getBalanceFactor(BalancedBinarySearchNode bbsn) {
+		int leftChildDepth = 0;
+		int rightChildDepth = 0;
+		if (bbsn.hasLeftChild()) {
+			leftChildDepth = ((BalancedBinarySearchNode) bbsn.getLeftChild())
+					.getDepth();
+		}
+		if (bbsn.hasRightChild()) {
+			rightChildDepth = ((BalancedBinarySearchNode) bbsn.getRightChild())
+					.getDepth();
+		}
+		return leftChildDepth - rightChildDepth;
+	}
+
+	/**
+	 * 获取结点的深度.
+	 *
+	 * @param bbsn
+	 *            comments
+	 * @return depth
+	 */
+	public int getDepth(BalancedBinarySearchNode bbsn) {
+		if (bbsn == null) {
+			return 0;
+		}
+
+		// 默认深度为1
+		int result = 1;
+		int leftChildDepth = 0;
+		int rightChildDepth = 0;
+		if (bbsn.hasLeftChild()) {
+			leftChildDepth = getDepth((BalancedBinarySearchNode) bbsn
+					.getLeftChild());
+		}
+		if (bbsn.hasRightChild()) {
+			rightChildDepth = getDepth((BalancedBinarySearchNode) bbsn
+					.getRightChild());
+		}
+		// 选择深度大的子树的深度，来计算当前结点的深度
+		if (leftChildDepth > 0 || rightChildDepth > 0) {
+			if (leftChildDepth > rightChildDepth) {
+				result = result + leftChildDepth;
+			} else {
+				result = result + rightChildDepth;
+			}
+		}
+		bbsn.setDepth(result);
+		return result;
+	}
+
+	/**
+	 * The main method.
+	 *
+	 * @param args
+	 *            the arguments
+	 */
+	public static void main(String[] args) {
+		//int[] sourceArray = new int[] { 8, 5, 3, 2, 1, 10, 12};
+		int[] sourceArray = new int[] { 8, 5, 3, 2, 1, 10, 12,6,7 };
+		BalancedBinarySearchTree bbst = new BalancedBinarySearchTree();
+		bbst.init(sourceArray);
+		System.out.println("根节点为" + bbst.getRoot().getData());
+		bbst.inOrderTraverse(bbst.getRoot());
+		System.out.println();
+		bbst.preOrderTraverse(bbst.getRoot());
 	}
 
 }
