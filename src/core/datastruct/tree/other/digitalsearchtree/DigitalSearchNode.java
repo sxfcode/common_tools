@@ -19,6 +19,18 @@ public class DigitalSearchNode {
 	/** 下一个兄弟结点. */
 	private DigitalSearchNode nextSibling;
 	
+	/** parent. */
+	private DigitalSearchNode parent;
+	
+	/**
+	 * Instantiates a new DigitalSearchNode.
+	 *
+	 * @param data comments
+	 */
+	public DigitalSearchNode(Object data){
+		this.data = data;
+	}
+	
 	
 	
 	
@@ -75,6 +87,32 @@ public class DigitalSearchNode {
 	public void setNextSibling(DigitalSearchNode nextSibling) {
 		this.nextSibling = nextSibling;
 	}
+
+
+
+
+	/**
+	 * Gets parent.
+	 *
+	 * @return parent
+	 */
+	public DigitalSearchNode getParent() {
+		return parent;
+	}
+
+
+
+
+	/**
+	 * Sets parent.
+	 *
+	 * @param parent comments
+	 */
+	public void setParent(DigitalSearchNode parent) {
+		this.parent = parent;
+	}
+	
+	
 	
 
 }
