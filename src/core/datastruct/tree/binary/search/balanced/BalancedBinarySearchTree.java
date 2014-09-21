@@ -170,7 +170,6 @@ public class BalancedBinarySearchTree extends BinarySearchTree {
 				setRoot(parent);
 			}
 			break;
-
 		default:
 			break;
 		}
