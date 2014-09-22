@@ -40,7 +40,7 @@ public class DigitalSearchTree {
 					// 当前元素位置为空,直接将后续元素添加到树
 					if (current==null) {
 						for (int j = i; j < chars.length; j++) {
-							DigitalSearchNode newNode = new DigitalSearchNode(c);
+							DigitalSearchNode newNode = new DigitalSearchNode(chars[j]);
 							parent.setFirstChild(newNode);
 							newNode.setParent(parent);
 							parent = newNode;
@@ -50,9 +50,14 @@ public class DigitalSearchTree {
 						int n = c - (Character)current.getData();
 						// 当前层次，新插入的结点排序更小
 						if (n<0) {
+							// 插入到current左边的元素
+							DigitalSearchNode currentLeft = new DigitalSearchNode(c);
+							parent.setFirstChild(currentLeft);
+							currentLeft.setNextSibling(current);
+							parent = currentLeft;
 							
-							for (int j = i; j < chars.length; j++) {
-								DigitalSearchNode newNode = new DigitalSearchNode(c);
+							for (int j = i+1; j < chars.length; j++) {
+								DigitalSearchNode newNode = new DigitalSearchNode(chars[j]);
 								parent.setFirstChild(newNode);
 								newNode.setParent(parent);
 								parent = newNode;
@@ -60,8 +65,20 @@ public class DigitalSearchTree {
 							return;
 						// 当前层次，新插入的结点排序更大
 						}else if(n>0){
-							for (int j = i; j < chars.length; j++) {
-								DigitalSearchNode newNode = new DigitalSearchNode(c);
+							// 插入到current右边的元素
+							DigitalSearchNode currentRight = new DigitalSearchNode(c);
+							if (current.getNextSibling()==null) {
+								current.setNextSibling(currentRight);
+								currentRight.setParent(parent);
+							}else{
+								while (current.getNextSibling()!=null) {
+									
+									
+								}
+							}
+							parent = currentRight;
+							for (int j = i+1; j < chars.length; j++) {
+								DigitalSearchNode newNode = new DigitalSearchNode(chars[j]);
 								parent.setFirstChild(newNode);
 								newNode.setParent(parent);
 								parent = newNode;
