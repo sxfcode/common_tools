@@ -67,11 +67,15 @@ public class DigitalSearchTree {
 						}else if(n>0){
 							// 插入到current右边的元素
 							DigitalSearchNode currentRight = new DigitalSearchNode(c);
+							DigitalSearchNode preSiblings = null;
+							DigitalSearchNode nextSiblings = null;
 							if (current.getNextSibling()==null) {
 								current.setNextSibling(currentRight);
 								currentRight.setParent(parent);
 							}else{
-								while (current.getNextSibling()!=null) {
+								preSiblings = current;
+								while (preSiblings.getNextSibling()!=null) {
+									preSiblings = preSiblings.getNextSibling();
 									
 									
 								}
