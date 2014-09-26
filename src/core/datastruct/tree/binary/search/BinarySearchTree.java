@@ -8,6 +8,7 @@ import core.datastruct.tree.binary.BinaryTree;
 
 /**
  * The Class BinarySearchTree.
+ * 二叉搜索树
  *
  * @date 2014-9-15 17:43:59
  * @author 宿晓斐
