@@ -1,5 +1,7 @@
 package core.datastruct.tree.other.digitalsearchtree;
 
+
+
 /**
  * The Class DigitalSearchNode.
  *
@@ -8,111 +10,62 @@ package core.datastruct.tree.other.digitalsearchtree;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class DigitalSearchNode {
-	
-	/** 关键字. */
-	private Object data;
-	
-	/** 第一个孩子结点. */
-	private DigitalSearchNode firstChild;
-	
-	/** 下一个兄弟结点. */
-	private DigitalSearchNode nextSibling;
-	
-	/** parent. */
-	private DigitalSearchNode parent;
-	
-	/**
-	 * Instantiates a new DigitalSearchNode.
-	 *
-	 * @param data comments
-	 */
-	public DigitalSearchNode(Object data){
-		this.data = data;
-	}
-	
-	
-	
-	
+public abstract class DigitalSearchNode {
+
 	/**
 	 * Gets data.
 	 *
 	 * @return data
 	 */
-	public Object getData() {
-		return data;
-	}
-	
+	public abstract Object getData() ;
+
 	/**
 	 * Sets data.
 	 *
 	 * @param data comments
 	 */
-	public void setData(Object data) {
-		this.data = data;
-	}
-	
-	/**
-	 * Gets firstChild.
-	 *
-	 * @return firstChild
-	 */
-	public DigitalSearchNode getFirstChild() {
-		return firstChild;
-	}
-	
-	/**
-	 * Sets firstChild.
-	 *
-	 * @param firstChild comments
-	 */
-	public void setFirstChild(DigitalSearchNode firstChild) {
-		this.firstChild = firstChild;
-	}
-	
-	/**
-	 * Gets nextSibling.
-	 *
-	 * @return nextSibling
-	 */
-	public DigitalSearchNode getNextSibling() {
-		return nextSibling;
-	}
-	
-	/**
-	 * Sets nextSibling.
-	 *
-	 * @param nextSibling comments
-	 */
-	public void setNextSibling(DigitalSearchNode nextSibling) {
-		this.nextSibling = nextSibling;
-	}
-
-
-
+	public abstract void setData(Object data);
 
 	/**
 	 * Gets parent.
 	 *
 	 * @return parent
 	 */
-	public DigitalSearchNode getParent() {
-		return parent;
-	}
-
-
-
+	public abstract DigitalSearchNode getParent();
 
 	/**
 	 * Sets parent.
 	 *
 	 * @param parent comments
 	 */
-	public void setParent(DigitalSearchNode parent) {
-		this.parent = parent;
-	}
-	
-	
-	
+	public abstract void setParent(DigitalSearchNode parent) ;
+
+	/**
+	 * Checks if is word end.
+	 *
+	 * @return true, if is word end
+	 */
+	public abstract boolean isWordEnd() ;
+
+	/**
+	 * Sets wordEnd.
+	 *
+	 * @param isWordEnd comments
+	 */
+	public abstract void setWordEnd(boolean isWordEnd);
+
+	/**
+	 * Checks if is visited.
+	 *
+	 * @return true, if is visited
+	 */
+	public abstract boolean isVisited();
+
+	/**
+	 * Sets visited.
+	 *
+	 * @param visited comments
+	 */
+	public abstract void setVisited(boolean visited) ;
 
 }
