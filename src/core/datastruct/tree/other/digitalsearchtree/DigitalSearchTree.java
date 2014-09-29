@@ -84,9 +84,9 @@ public class DigitalSearchTree {
 							break;
 						}
 						// 该子树已到达叶子结点,直接将剩余字符追加到该叶子结点上
+						// 当前字符未加入到树中，所以flag不++
 					} else {
 						leafNode = parent;
-						flag++;
 						break;
 					}
 				}
@@ -321,14 +321,15 @@ public class DigitalSearchTree {
 	}
 
 	public static void main(String[] args) {
-		String[] sourceArray = new String[] { "hello","helloworld", "helloxiaozhang","zhongguo"};
+		//String[] sourceArray = new String[] { "hello","helloworld"};
+		String[] sourceArray = new String[] { "hello","helloworld", "xiaowang","xiaozhang"};
 		DigitalSearchTree dst = new DigitalSearchTree();
 		dst.init(sourceArray, DigitalSearchTree.STRUCT_TYPE_TRIE);
 		dst.initUnVisited(dst.getRoot());
 		dst.dfsTree(dst.getRoot());
 		dst.initUnVisited(dst.getRoot());
-		System.out.println();
-	    dst.bfsTree(dst.getRoot());
+		System.out.println("查找单词hello:"+dst.search("hello"));
+	    //dst.bfsTree(dst.getRoot());
 
 	}
 

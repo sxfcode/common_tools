@@ -131,4 +131,10 @@ public class DigitalSearchTrieNode extends DigitalSearchNode {
 	public void setParent(DigitalSearchNode parent) {
 		this.parent = (DigitalSearchTrieNode) parent;
 	}
+
+	@Override
+	public String toString() {
+		return "DigitalSearchTrieNode [data=" + data + "]";
+	}
+	
 }
