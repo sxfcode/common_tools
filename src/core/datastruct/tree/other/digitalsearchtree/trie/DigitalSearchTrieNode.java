@@ -5,7 +5,7 @@ import core.datastruct.tree.other.digitalsearchtree.DigitalSearchNode;
 
 /**
  * The Class DigitalSearchTrieNode.
- *
+ *  键树的结点
  * @date 2014-9-28 11:14:09
  * @author 宿晓斐
  * @version 1.0

@@ -1,6 +1,5 @@
 package core.datastruct.tree.binary.search;
 
-import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +78,9 @@ public class BinarySearchTree extends BinaryTree<BinarySearchNode> {
 	 * 找到X的后继元素（前驱也可），设为X_SUCC，使得X_SUCC代替X的位置，从而X的左子树即为X_SUCC的左子树，X的右子树即为X_SUCC的右子树；
 	 * 之后将原来X_SUCC结点的双亲结点指向X_SUCC的指针指向X_SUCC的右孩子
 	 * （如果是找前驱替代，即指向左孩子）；最后把X删掉就OK了~~~~.
+	 * 
+	 * 注意：删除结点X的核心操作是让结点的直接后继代替结点X
+	 *
 	 *
 	 * @param node
 	 *            comments

@@ -7,7 +7,7 @@ import core.datastruct.tree.other.digitalsearchtree.trie.DigitalSearchTrieNode;
 
 /**
  * The Class DigitalSearchTree.
- *
+ * 键树
  * @date 2014-9-21 17:06:38
  * @author 宿晓斐
  * @version 1.0
@@ -28,7 +28,7 @@ public class DigitalSearchTree {
 	private int structType = STRUCT_TYPE_TRIE;
 
 	/**
-	 * init.
+	 * 构造一棵键树.
 	 *
 	 * @param sourceArray
 	 *            comments
@@ -42,7 +42,8 @@ public class DigitalSearchTree {
 	}
 
 	/**
-	 * addKey.
+	 * 添加关键字.
+	 * 例如将字典中的单词加入到树中。
 	 *
 	 * @param key
 	 *            comments
@@ -97,12 +98,15 @@ public class DigitalSearchTree {
 				}
 			}
 		} else {
-
+			// 暂未实现
 		}
 	}
 
 	/**
-	 * 向目标结点插入子节点..
+	 * 向目标结点插入子节点.,
+	 * 该子节点在目标结点的子节点中的位置应该是有序的。
+	 * 假设目标结点A有2个子节点，其键值分别为3,6，要插入子节点的键值为4，则插入后A的子节点从左到右的顺序应为3,4,6
+	 *
 	 *
 	 * @param insertChar
 	 *            需要插入的字符
@@ -185,11 +189,21 @@ public class DigitalSearchTree {
 		}
 	}
 
+	/**
+	 * visit.
+	 *
+	 * @param node comments
+	 */
 	public void visit(DigitalSearchNode node) {
 		System.out.print(node.getData());
 		node.setVisited(true);
 	}
 
+	/**
+	 * 深度优先遍历.
+	 *
+	 * @param node comments
+	 */
 	public void dfsTree(DigitalSearchNode node) {
 		if (!node.isVisited()) {
 			if (STRUCT_TYPE_SIBLING == structType) {
@@ -208,6 +222,11 @@ public class DigitalSearchTree {
 	}
 
 	
+	/**
+	 * 广度优先遍历.
+	 *
+	 * @param node comments
+	 */
 	public void bfsTree(DigitalSearchNode node) {
 		if (STRUCT_TYPE_SIBLING == structType) {
 			// todo
@@ -244,7 +263,7 @@ public class DigitalSearchTree {
 	 *            comments
 	 */
 	public void deleteKey(String key) {
-
+		// todo
 	}
 
 	/**
@@ -289,6 +308,11 @@ public class DigitalSearchTree {
 		}
 	}
 
+	/**
+	 * 将结点初始化成未访问的.
+	 *
+	 * @param node comments
+	 */
 	public void initUnVisited(DigitalSearchNode node) {
 		if (STRUCT_TYPE_SIBLING == structType) {
 			// todo
@@ -304,22 +328,47 @@ public class DigitalSearchTree {
 		}
 	}
 
+	/**
+	 * Gets root.
+	 *
+	 * @return root
+	 */
 	public DigitalSearchNode getRoot() {
 		return root;
 	}
 
+	/**
+	 * Sets root.
+	 *
+	 * @param root comments
+	 */
 	public void setRoot(DigitalSearchNode root) {
 		this.root = root;
 	}
 
+	/**
+	 * Gets structType.
+	 *
+	 * @return structType
+	 */
 	public int getStructType() {
 		return structType;
 	}
 
+	/**
+	 * Sets structType.
+	 *
+	 * @param structType comments
+	 */
 	public void setStructType(int structType) {
 		this.structType = structType;
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		//String[] sourceArray = new String[] { "hello","helloworld"};
 		String[] sourceArray = new String[] { "hello","helloworld", "xiaowang","xiaozhang"};
