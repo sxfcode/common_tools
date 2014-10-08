@@ -1,6 +1,6 @@
 package core.datastruct.tree.other.search.balanced;
 
-import core.datastruct.tree.binary.search.BinarySearchNode;
+import core.datastruct.tree.other.search.BinarySearchNode;
 
 public class BalancedBinarySearchNode extends BinarySearchNode {
 	private Integer balanceFactor;

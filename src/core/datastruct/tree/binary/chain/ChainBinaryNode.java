@@ -1,7 +1,6 @@
 package core.datastruct.tree.binary.chain;
 
 import core.datastruct.tree.binary.BinaryNode;
-import core.datastruct.tree.binary.search.BinarySearchNode;
 
 /**
  * The Class LinkNode.

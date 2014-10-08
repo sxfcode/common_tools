@@ -1,7 +1,7 @@
 package core.datastruct.tree.other.search.balanced;
 
-import core.datastruct.tree.binary.search.BinarySearchNode;
-import core.datastruct.tree.binary.search.BinarySearchTree;
+import core.datastruct.tree.other.search.BinarySearchNode;
+import core.datastruct.tree.other.search.BinarySearchTree;
 
 /**
  * The Class BalancedBinarySearchTree. 平衡二叉查找树. AVL树
