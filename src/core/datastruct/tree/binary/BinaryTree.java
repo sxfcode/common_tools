@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import core.datastruct.tree.binary.chain.ChainBinaryNode;
-
 /**
  * The Class Tree. 
  * 二叉树的抽象类,提供一些常用方法的抽象实现, 例如：先序遍历，中序遍历，后续遍历
