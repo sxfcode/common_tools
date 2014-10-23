@@ -1,4 +1,4 @@
-package core.datastruct.tree.common.arraychain.parentschildren;
+package core.datastruct.tree.common.zmixed.parentschildren;
 
 /**
  * The Class ArrayChainNode.
