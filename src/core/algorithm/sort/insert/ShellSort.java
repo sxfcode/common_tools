@@ -49,129 +49,34 @@ public class ShellSort implements Sort  {
 	 * @return
 	 */
 	public static int[] shellSort(int[] sourceArray){
-		int step = sourceArray.length/2;
+		int step =sourceArray.length/2;
 		while (step>0) {
-			// if step ==1直接进行插入排序
-			if(step ==1){
-				//sourceArray = InsertSort.insertSort(sourceArray);
-				for(int i=0;i<sourceArray.length;i++){
-					int current = sourceArray[i];
-					// 第i个元素跟前i-1个元素进行比较，并插入到合适的位置，前i-1个元素认为已经排序完毕
-					for(int j=i-1;j>=0;j=j-1){
-						if(current>=sourceArray[j]){
-							// 插入并向后移动元素,由于最后元素的索引不方便确认，所以采用向后推进的方式，而不常规的向前推进的方式。
-							// mov1
-							int last = current;
-							for(int k=j+1;k<=i;k=k+1){
-								int temp = sourceArray[k];
-								sourceArray[k] = last;
-								last = temp;
-							}
-							// 若不执行break,则k==0的操作会再次执行，导致逻辑错误。
-							break;
-						}else{
-							// 所有元素都比current大的情况，则将其放到数组开头
-							if(j==0){
-								// mov2:注意mov2这里要比mov1多移动一个元素
-								int last = current;
-								for(int k=j;k<=i;k=k+1){
-									int temp = sourceArray[k];
-									sourceArray[k] = last;
-									last = temp;
-								}
-							}
-						}
+			// 数据分组 x,x+d,x+2d,x+3d为一组数据
+			for (int x = 0; x < step; x++) {
+				// 对分组数据使用插入排序
+				for(int i=x;i<sourceArray.length;i=x+step){
+					for (int j=i;j>x&&sourceArray[j-step]>sourceArray[j];j=j-step) {
+						swap(sourceArray, j-step, j);
 					}
 				}
-				// 输出插入排序结果
-				for (int i = 0; i < sourceArray.length; i++) {
-					System.out.print(sourceArray[i]+",");
-				}
-				System.out.println("<br>");
-				break;
-			}else{
-				for (int i = 0; i <step; i++) {
-					// 对每个分组进行插入排序
-					for(int j= i;j<sourceArray.length;j=j+step){
-						int current = sourceArray[j];
-						// (j之前的元素为已排序数组，j之后的元素为未排序数组)
-						// 从未排序数组中拿出一个元素与已排序数组进行比较
-						for(int k=j-step;k>=i;k=k-step){
-							// 跟已排序数组中的上一个元素进行比较
-							if(current>=sourceArray[k]){
-								// 插入并向后移动元素,由于最后元素的索引不方便确认，所以采用向后推进的方式，而不常规的向前推进的方式。
-								int last = current;
-								for(int l=k+step;l<=j;l=l+step){
-									int temp = sourceArray[l];
-									sourceArray[l] = last;
-									last = temp;
-								}
-								break;
-							}else{
-								// 所有元素都比current大的情况，则将其放到纵向数组开头
-								if(k==i){
-									int last = current;
-									for(int l=k;l<=j;l=l+step){
-										int temp = sourceArray[l];
-										sourceArray[l] = last;
-										last = temp;
-									}
-								}
-							}
-						}
-					}
-				}
-				// 输出插入排序结果
-				for (int i = 0; i < sourceArray.length; i++) {
-					System.out.print(sourceArray[i]+",");
-				}
-				System.out.println("<br>");
-				step = step /2;
-			}
+			}		
+			step=step/2;
 		}
 		return sourceArray;
 	}
 	
 	/**
-	 *模拟希尔排序,本方法主要用于理解希尔排序，性能存在问题，实际开发中不要直接使用该方法。
-	 * @param sourceArray
-	 * @return
+	 * swap.
+	 *
+	 * @param src comments
+	 * @param i comments
+	 * @param j comments
 	 */
-	public static int[] shellSortShow(int[] sourceArray){
-		int step = sourceArray.length/2;
-		while (step>0) {
-			// if step ==1直接进行插入排序
-			if(step ==1){
-				sourceArray = InsertSort.insertSort(sourceArray);
-				break;
-			}else{
-				for (int i = 0; i <step; i++) {
-					
-					// 使用每个分组组成新的数组数据,便于排序
-					int tempLength = 0;
-					for(int j= i;j<sourceArray.length;j=j+step){
-						tempLength =tempLength +1;
-					}
-					int[] temp = new int[tempLength];
-					int tempIndex = 0;
-					for(int j= i;j<sourceArray.length;j=j+step){
-						temp[tempIndex] =sourceArray[j];
-						tempIndex = tempIndex+1;
-					}
-					// 对每个分组进行插入排序
-					temp = InsertSort.insertSort(temp);
-					
-					// 排序后的数据回填
-					tempIndex = 0;
-					for(int j= i;j<sourceArray.length;j=j+step){
-						sourceArray[j]=temp[tempIndex];
-						tempIndex = tempIndex+1;
-					}
-				}
-				step = step /2;
-			}
-		}
-		return sourceArray;
+	public static void swap(int[] src,int i,int j){
+		int a =src[i];
+		src[i]=src[j];
+		src[j] = a;
 	}
+
 
 } 	 	
