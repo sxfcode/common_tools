@@ -1,6 +1,7 @@
 package core.algorithm.sort.change;
 
 import core.algorithm.sort.Sort;
+import core.algorithm.sort.SortUtils;
 
 
 /**
@@ -45,9 +46,7 @@ public class OddEvenSort implements Sort {
 				// 比较相邻元素
 				if(sourceArray[i]>sourceArray[i+1]){
 					// 交换相邻元素
-					int temp = sourceArray[i];
-					sourceArray[i] = sourceArray[i+1];
-					sourceArray[i+1] = temp;
+					SortUtils.swap(sourceArray, i, i+1);
 					// 如果发生交换，则认为整个排序过程尚未完成。
 					sorted = false;
 				}
@@ -56,9 +55,7 @@ public class OddEvenSort implements Sort {
 				// 比较相邻元素
 				if(sourceArray[i]>sourceArray[i+1]){
 					// 交换相邻元素
-					int temp = sourceArray[i];
-					sourceArray[i] = sourceArray[i+1];
-					sourceArray[i+1] = temp;
+					SortUtils.swap(sourceArray, i, i+1);
 					// 如果发生交换，则认为整个排序过程尚未完成。
 					sorted = false;
 				}
