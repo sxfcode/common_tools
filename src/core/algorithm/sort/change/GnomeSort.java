@@ -1,6 +1,7 @@
 package core.algorithm.sort.change;
 
 import core.algorithm.sort.Sort;
+import core.algorithm.sort.SortUtils;
 
 /**
  * The Class GnomeSort.
@@ -38,9 +39,7 @@ public class GnomeSort implements Sort {
 				i++;
 			}else{
 				// 错误的顺序，园丁交换花盆位置，并后退一步，继续比较。
-				int temp = sourceArray[i-1];
-				sourceArray[i-1]= sourceArray[i];
-				sourceArray[i] = temp;
+				SortUtils.swap(sourceArray, i-1, i);
 				i--;
 			}
 		}
