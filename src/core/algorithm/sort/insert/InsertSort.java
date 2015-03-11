@@ -1,6 +1,7 @@
 package core.algorithm.sort.insert;
 
 import core.algorithm.sort.Sort;
+import core.algorithm.sort.SortUtils;
 
 /**
  * The Class InsertSort. 
@@ -57,25 +58,14 @@ public class InsertSort implements Sort{
 	 * 空间复杂度 O(n)
 	 * 时间复杂度 
 	 */
-	public int[] sort(int[] sourceArray) {
-	     for (int i=0; i<sourceArray.length; i++)
-             for (int j=i; j>0 && sourceArray[j-1]>sourceArray[j]; j--)
-                 swap(sourceArray, j, j-1);
-		return sourceArray;
+	public int[] sort(int[] src) {
+	     for (int i=0; i<src.length; i++)
+             for (int j=i; j>0 && src[j-1]>src[j]; j--)
+            	 SortUtils.swap(src, j, j-1);
+		return src;
 	}
 	
-	/**
-	 * swap.
-	 *
-	 * @param src comments
-	 * @param i comments
-	 * @param j comments
-	 */
-	public static void swap(int[] src,int i,int j){
-		int a =src[i];
-		src[i]=src[j];
-		src[j] = a;
-	}
+
 	
 	/**
 	 * The main method.
@@ -89,6 +79,7 @@ public class InsertSort implements Sort{
 		for (int i = 0; i < sr.length; i++) {
 			System.out.println(sr[i]);
 		}
+		System.out.println(1/2);
 		
 	}
 }

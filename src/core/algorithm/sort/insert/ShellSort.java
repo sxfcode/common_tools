@@ -1,6 +1,7 @@
 package core.algorithm.sort.insert;
 
 import core.algorithm.sort.Sort;
+import core.algorithm.sort.SortUtils;
 
 
 /***
@@ -51,12 +52,12 @@ public class ShellSort implements Sort  {
 	public static int[] shellSort(int[] sourceArray){
 		int step =sourceArray.length/2;
 		while (step>0) {
-			// 数据分组 x,x+d,x+2d,x+3d为一组数据
+			// 数据分组 x,x+d,x+2d,x+3d为一组数据,d为步长
 			for (int x = 0; x < step; x++) {
 				// 对分组数据使用插入排序
 				for(int i=x;i<sourceArray.length;i=x+step){
 					for (int j=i;j>x&&sourceArray[j-step]>sourceArray[j];j=j-step) {
-						swap(sourceArray, j-step, j);
+						SortUtils.swap(sourceArray, j-step, j);
 					}
 				}
 			}		
@@ -64,19 +65,5 @@ public class ShellSort implements Sort  {
 		}
 		return sourceArray;
 	}
-	
-	/**
-	 * swap.
-	 *
-	 * @param src comments
-	 * @param i comments
-	 * @param j comments
-	 */
-	public static void swap(int[] src,int i,int j){
-		int a =src[i];
-		src[i]=src[j];
-		src[j] = a;
-	}
-
 
 } 	 	
