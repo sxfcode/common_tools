@@ -1,6 +1,7 @@
 package core.algorithm.sort.change;
 
 import core.algorithm.sort.Sort;
+import core.algorithm.sort.SortUtils;
 
 /**
  * The Class BubbleSort.
@@ -42,9 +43,7 @@ public class BubbleSort implements Sort {
 			for (int i = 0; i < flag ; i++) {
 				if(sourceArray[i]>sourceArray[i+1]){
 					// 交换最大值
-					int temp = sourceArray[i];
-					sourceArray[i] = sourceArray[i+1]; 
-					sourceArray[i+1] = temp;
+					SortUtils.swap(sourceArray, i, i+1);
 				}
 			}
 			// 重置标记

@@ -57,6 +57,7 @@ public class QuickSort implements Sort  {
 				sourceArray[j] = temp;
 			}
 		}
+		
 		if(i-start>1){
 			quickSortInRe(sourceArray,start,i);
 		}
@@ -71,7 +72,7 @@ public class QuickSort implements Sort  {
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
-		int[] sourceArray = new int[]{1,4,7,3,4,5,7,8,9,11,20,50,8,2};
+		int[] sourceArray = new int[]{1,3,5,7,1,2,6};
 		QuickSort.quickSortInRe(sourceArray,0,sourceArray.length-1);
 		for (int i = 0; i < sourceArray.length; i++) {
 			System.out.println(sourceArray[i]);
