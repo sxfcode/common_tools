@@ -1,6 +1,7 @@
 package core.algorithm.sort.change;
 
 import core.algorithm.sort.Sort;
+import core.algorithm.sort.SortUtils;
 
 /**
  * The Class QuickSort. 快速排序 快速排序（Quicksort）是对冒泡排序的一种改进。
@@ -65,6 +66,38 @@ public class QuickSort implements Sort  {
 			quickSortInRe(sourceArray,i+1,end);
 		}
 	}
+	
+	public static void qs(int[] s,int start,int end){
+		if (start==end) {
+			return;
+		}
+		if ((end-start)==1) {
+			if (s[start]>s[end]) {
+				SortUtils.swap(s, start,end);
+			}
+			return;
+		}
+		int i = start;
+		int j = end;
+		while (i<j) {
+			while (s[i]<=s[j] && i<j) {
+				j--;
+			}
+			SortUtils.swap(s, i, j);
+
+			while (s[i]<=s[j] && i<j) {
+				i++;
+			}
+			SortUtils.swap(s, i, j);
+		}
+		qs(s,start,i);
+		if ((i+1)<end) {
+			qs(s,i+1,end);	
+		}
+		
+		
+	}
+	
 
 	/**
 	 * The main method.
@@ -72,8 +105,10 @@ public class QuickSort implements Sort  {
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
-		int[] sourceArray = new int[]{1,3,5,7,1,2,6};
-		QuickSort.quickSortInRe(sourceArray,0,sourceArray.length-1);
+		int[] sourceArray = new int[]{6,1,3,5,7,1,2,6};
+		//QuickSort.quickSortInRe(sourceArray,0,sourceArray.length-1);
+		qs(sourceArray,0,sourceArray.length-1);
+		
 		for (int i = 0; i < sourceArray.length; i++) {
 			System.out.println(sourceArray[i]);
 		}
