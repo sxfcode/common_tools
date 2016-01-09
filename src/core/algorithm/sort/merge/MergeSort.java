@@ -1,5 +1,7 @@
 package core.algorithm.sort.merge;
 
+import core.algorithm.sort.SortUtils;
+
 /**
  * 
  * 归并排序的算法核心是递归合并相邻元素，在合并的时候执行排序操作，最终合并成一个大的有序的数据集合。
@@ -20,18 +22,100 @@ package core.algorithm.sort.merge;
  * 2,设定两个指针，最初位置分别为两个已经排序序列的起始位置 3.比较两个指针所指向的元素，选择相对小的元素放入到合并空间，并移动指针到下一位置
  * 4.重复步骤3直到某一指针达到序列尾 5.将另一序列剩下的所有元素直接复制到合并序列尾
  * 
+ * ----------------------------------------------------------------------------
+ * --
+ * -----------------------------------------------------------------------------
+ * 除了直接申请空间外，也可以申请较小的空间，将指定元素数组排好序后，再写回原数组。
+ * 
+ * 
+ * 
  * @author suxiaofei
  * 
  */
 public class MergeSort {
-	public static int count = 0;
+
+	private static int count = 0;
+
+	/**
+	 * Sort.
+	 *
+	 * @param source
+	 *            the source
+	 */
+	public static void sort(int[] source, int start, int end) {
+		if (end - start <= 1) {
+			if (source[start] > source[end]) {
+				SortUtils.swap(source, start, end);
+			}
+		} else {
+			// 通过递归拆分数组。
+			int mid = start + (end - start + 1) / 2;
+			sort(source, start, mid);
+			sort(source, mid + 1, end);
+			merge(source, start, mid, end);
+		}
+	}
+
+	/**
+	 * Merge. 合并两个数组，左边的数组为s[start,mid],右边的数组为s[mid+1,end]
+	 *
+	 * @param s
+	 *            the s
+	 * @param start
+	 *            左边数组的开始下标
+	 * @param mid
+	 *            左边数组的结束下标(右边数组的开始下标=mid+1)
+	 * @param end
+	 *            右边数组的结束 下标
+	 */
+	public static void merge(int[] s, int start, int mid, int end) {
+		int[] temp = new int[end - start + 1];
+		// 左边数组开始下标
+		int i = start;
+		// 右边数组开始下标
+		int j = mid + 1;
+		int k = 0;
+		while (i <= (mid + 1) || j <= (end + 1)) {
+			// 某一数组已经比较完毕。
+			// 左边数组已经全部进入temp队列，插入右边数组的剩余元素
+			if (i == (mid + 1)) {
+				for (; j <= end; k++, j++) {
+					temp[k] = s[j];
+				}
+				break;
+			}
+			// 右边数组已经全部进入temp队列，插入左边数组的剩余元素
+			if (j == (end + 1)) {
+				for (; i <= mid; k++, i++) {
+					temp[k] = s[i];
+				}
+				break;
+			}
+
+			// 从两个数组的当前元素中挑出较小的一个，放入临时数组，较小元素所在数组的下标+1
+			if (s[i] < s[j]) {
+				temp[k] = s[i];
+				k++;
+				i++;
+			} else {
+				temp[k] = s[j];
+				k++;
+				j++;
+			}
+		}
+		// 将排好序的数组写回s数组（也可以直接返回）
+		for (int m = 0; m < temp.length; m++) {
+			s[start + m] = temp[m];
+		}
+	}
+
 	/**
 	 * 归并排序的递归实现
 	 * 
 	 * @param sourceArray
 	 * @return
 	 */
-	public static int[] mergeSortRecursive(int[] sourceArray) {
+	public static int[] sortOld(int[] sourceArray) {
 		if (sourceArray.length <= 1) {
 			return sourceArray;
 		}
@@ -46,12 +130,12 @@ public class MergeSort {
 		for (int i = 0; i + mid < sourceArray.length; i++) {
 			right[i] = sourceArray[mid + i];
 		}
-		left = mergeSortRecursive(left);
-		right = mergeSortRecursive(right);
-		return merge(left, right);
+		left = sortOld(left);
+		right = sortOld(right);
+		return mergeOld(left, right);
 	}
 
-	public static int[] merge(int[] left, int[] right) {
+	public static int[] mergeOld(int[] left, int[] right) {
 		int[] result = new int[left.length + right.length];
 		int leftIndex = 0;
 		int rightIndex = 0;
@@ -88,8 +172,10 @@ public class MergeSort {
 	}
 
 	/**
-	 * 
+	 * The main method.
+	 *
 	 * @param args
+	 *            the args
 	 */
 	public static void main(String[] args) {
 		// int[] left = new int[]{1,2,3,8,10};
@@ -98,12 +184,20 @@ public class MergeSort {
 		// for (int i = 0; i < result.length; i++) {
 		// System.out.print(result[i]+",");
 		// }
-		int[] sourceArray = new int[] { 8, 7, 6, 5, 4, 3, 2, 1, 1,2,3,4,5,6,7,8};
-		int[] targetArray = MergeSort.mergeSortRecursive(sourceArray);
-		for (int i = 0; i < targetArray.length; i++) {
-			System.out.print(targetArray[i]+",");
+		// int[] sourceArray = new int[] { 8, 7, 6, 5, 4, 3, 2, 1,
+		// 1,2,3,4,5,6,7,8};
+		// int[] targetArray = MergeSort.mergeSortRecursive(sourceArray);
+		// for (int i = 0; i < targetArray.length; i++) {
+		// System.out.print(targetArray[i]+",");
+		// }
+		// System.out.println("程序体执行总次数:"+MergeSort.count);
+		// int[] sourceArray = new int[] { 8, 7, 6, 5, 4, 3, 2, 1,
+		// 1,2,3,4,5,6,7,8};
+		int[] sourceArray = new int[] { 3, 2, 1 };
+		sort(sourceArray, 0, sourceArray.length - 1);
+		for (int i = 0; i < sourceArray.length; i++) {
+			System.out.println(sourceArray[i]);
 		}
-		System.out.println("程序体执行总次数:"+MergeSort.count);
 
 	}
 
