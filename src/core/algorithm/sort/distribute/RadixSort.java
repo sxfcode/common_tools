@@ -1,5 +1,7 @@
 package core.algorithm.sort.distribute;
 
+import java.util.Iterator;
+
 import core.algorithm.sort.Sort;
 
 /**
@@ -25,10 +27,49 @@ import core.algorithm.sort.Sort;
  */
 public class RadixSort implements Sort{
 	
-	public int[] sort(int[] sourceArray) {
-		return RadixSort.radixSort(sourceArray, -1);
+	/**
+	 * Sort.
+	 *
+	 * @param s the s
+	 * @param n the n  n 数组中位数最大的数字。
+	 */
+	public static void sort(int[] s,int n){
+		// 当前处理位数
+		int w=1;
+		// 存放数据的桶
+		int[][] bk=new int[10][s.length];
+		// 每个数据桶中保存的数字的个数)；
+		int[] bkc= new int[10];
+		for (int i = 0; i < bkc.length; i++) {
+			 bkc[i]=0;
+		}
+		// 试用桶过滤数据
+		while (w<=n) {
+			for (int i = 0; i < s.length; i++) {
+				// 10的w次方
+				int m10 =(int)Math.pow(10,w-1);
+				// 求出s[i],应该存放的桶的位置
+				int r=(s[i]/m10)%10;
+				bk[r][bkc[r]]=s[i];
+				bkc[r]++;
+			}
+			// 将桶中的数据按桶中的顺序放回数组
+			int k =0;
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < bkc[i]; j++) {
+					// 使用第i个数据桶中的数据
+					s[k]=bk[i][j];
+					k++;
+				}
+				// 桶清零
+				bkc[i]=0;
+			}
+			w++;
+		}
+		
 	}
 	
+
 	
 	
 	/**
@@ -39,13 +80,14 @@ public class RadixSort implements Sort{
 	 * 
 	 * 在已知最大数字位数的情况下，能有效减少排序时间。
 	 * 注意，暂不考虑负数的情况,并且本方法会改变源数组，注意并发。
-	 * LSD方式，从低位到高位的排序
+	 * LSD方式，从低位到高位的排序.
 	 *
 	 * @param sourceArray comments 源数组
 	 * @param maxWidth comments 数组中最大数字的位数，例如，数组中最大数字为100，100为3位数，则传3。
-	 *                          若不知道最大数，则传-1即可。
+	 * 若不知道最大数，则传-1即可。
+	 * @return the int[]
 	 */
-	public static int[] radixSort(int[] sourceArray,int maxWidth){
+	public static int[] sortOld(int[] sourceArray,int maxWidth){
 		// step 1:确定最大数。
 		// 计算最大数的位数start.
 		int max = 1; // 
@@ -101,5 +143,19 @@ public class RadixSort implements Sort{
 		}
 		return sourceArray;
 	}
+	
+	
+	
+	
+	public static void main(String[] args) {
+		int[] sourceArray = new int[]{1,200,10,25,123,42,91};
+		sort(sourceArray, 3);
+		for (int i = 0; i < sourceArray.length; i++) {
+			System.out.println(sourceArray[i]);
+			
+		}
+	}
+	
+	
 
 }

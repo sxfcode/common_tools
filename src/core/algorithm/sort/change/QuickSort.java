@@ -17,10 +17,42 @@ import core.algorithm.sort.SortUtils;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class QuickSort implements Sort  {
+public class QuickSort  {
 	
-	public int[] sort(int[] sourceArray) {
-		QuickSort.quickSortInRe(sourceArray,0,sourceArray.length-1);
+	public static void sort(int[] s,int start,int end){
+		if (start==end) {
+			return;
+		}
+		if ((end-start)==1) {
+			if (s[start]>s[end]) {
+				SortUtils.swap(s, start,end);
+			}
+			return;
+		}
+		int i = start;
+		int j = end;
+		while (i<j) {
+			while (s[i]<=s[j] && i<j) {
+				j--;
+			}
+			SortUtils.swap(s, i, j);
+
+			while (s[i]<=s[j] && i<j) {
+				i++;
+			}
+			SortUtils.swap(s, i, j);
+		}
+		sort(s,start,i);
+		if ((i+1)<end) {
+			sort(s,i+1,end);	
+		}
+		
+		
+	}
+	
+	
+	public int[] sortOld(int[] sourceArray) {
+		QuickSort.quickSortInReOld(sourceArray,0,sourceArray.length-1);
 		return sourceArray;
 	}
 	
@@ -32,7 +64,7 @@ public class QuickSort implements Sort  {
 	 * @param start comments
 	 * @param end comments
 	 */
-	public static void quickSortInRe(int[] sourceArray,int start,int end){
+	public static void quickSortInReOld(int[] sourceArray,int start,int end){
 		int i= start;
 		int j = end;
 		// 从i++和j--两个方向搜索不满足条件的值并交换  *
@@ -60,43 +92,14 @@ public class QuickSort implements Sort  {
 		}
 		
 		if(i-start>1){
-			quickSortInRe(sourceArray,start,i);
+			quickSortInReOld(sourceArray,start,i);
 		}
 		if(end-i>1){
-			quickSortInRe(sourceArray,i+1,end);
+			quickSortInReOld(sourceArray,i+1,end);
 		}
 	}
 	
-	public static void qs(int[] s,int start,int end){
-		if (start==end) {
-			return;
-		}
-		if ((end-start)==1) {
-			if (s[start]>s[end]) {
-				SortUtils.swap(s, start,end);
-			}
-			return;
-		}
-		int i = start;
-		int j = end;
-		while (i<j) {
-			while (s[i]<=s[j] && i<j) {
-				j--;
-			}
-			SortUtils.swap(s, i, j);
-
-			while (s[i]<=s[j] && i<j) {
-				i++;
-			}
-			SortUtils.swap(s, i, j);
-		}
-		qs(s,start,i);
-		if ((i+1)<end) {
-			qs(s,i+1,end);	
-		}
-		
-		
-	}
+	
 	
 
 	/**
@@ -107,7 +110,7 @@ public class QuickSort implements Sort  {
 	public static void main(String[] args) {
 		int[] sourceArray = new int[]{6,1,3,5,7,1,2,6};
 		//QuickSort.quickSortInRe(sourceArray,0,sourceArray.length-1);
-		qs(sourceArray,0,sourceArray.length-1);
+		sort(sourceArray,0,sourceArray.length-1);
 		
 		for (int i = 0; i < sourceArray.length; i++) {
 			System.out.println(sourceArray[i]);

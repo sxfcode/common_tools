@@ -26,7 +26,7 @@ public class GnomeSort implements Sort {
 
 	 
 	/**
-	 * gnomeSort.
+	 * 类似插入排序，向已经排好序的数组中插入元素，直到找到一个坑，能够刚好让该元素小于后一个元素，大于前一个元素。
 	 *
 	 * @param sourceArray comments
 	 * @return int[]
