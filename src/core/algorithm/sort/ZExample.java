@@ -60,7 +60,7 @@ public class ZExample {
 		sortMethods.add(new ComSort());
 		sortMethods.add(new GnomeSort());
 		sortMethods.add(new OddEvenSort());
-		sortMethods.add(new QuickSort());
+		//sortMethods.add(new QuickSort());
 		sortMethods.add(new RadixSort());
 
 		sortMethods.add(new InsertSort());
