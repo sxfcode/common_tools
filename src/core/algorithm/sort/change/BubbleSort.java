@@ -23,33 +23,34 @@ import core.algorithm.sort.SortUtils;
  */
 public class BubbleSort implements Sort {
 	
-	public int[] sort(int[] sourceArray) {
-		return BubbleSort.bubbleSort(sourceArray);
-	}
-	
 	/**
 	 * 冒泡排序.
 	 * 空间复杂度 n
 	 *
-	 * @param sourceArray comments
+	 * @param s comments
 	 * @return int[]
 	 */
-	public static int[] bubbleSort(int[] sourceArray){
+	public static int[] sort(int[] s){
 		// 标记将要进行数据交换的元素,从最后一个开始进行数据交换
-		int flag = sourceArray.length -1;
+		int flag = s.length -1;
 		// step 1:从大到小推进
 		while (flag>0) {
 			// step 2:通过相邻元素比较与交换，找到最大元素，并将其放到flag的位置。
 			for (int i = 0; i < flag ; i++) {
-				if(sourceArray[i]>sourceArray[i+1]){
+				if(s[i]>s[i+1]){
 					// 交换最大值
-					SortUtils.swap(sourceArray, i, i+1);
+					SortUtils.swap(s, i, i+1);
 				}
 			}
 			// 重置标记
 			flag--;
 		}
-		return sourceArray;
+		return s;
 	}
 
+	@Override
+	public int[] doSort(int[] sourceArray) {
+		sort(sourceArray);
+		return sourceArray;
+	}
 }

@@ -1,5 +1,6 @@
 package core.algorithm.sort.merge;
 
+import core.algorithm.sort.Sort;
 import core.algorithm.sort.SortUtils;
 
 /**
@@ -32,27 +33,25 @@ import core.algorithm.sort.SortUtils;
  * @author suxiaofei
  * 
  */
-public class MergeSort {
-
-	private static int count = 0;
+public class MergeSort implements Sort {
 
 	/**
 	 * Sort.
 	 *
-	 * @param source
+	 * @param s
 	 *            the source
 	 */
-	public static void sort(int[] source, int start, int end) {
+	public static void sort(int[] s, int start, int end) {
 		if (end - start <= 1) {
-			if (source[start] > source[end]) {
-				SortUtils.swap(source, start, end);
+			if (s[start] > s[end]) {
+				SortUtils.swap(s, start, end);
 			}
 		} else {
 			// 通过递归拆分数组。
 			int mid = start + (end - start + 1) / 2;
-			sort(source, start, mid);
-			sort(source, mid + 1, end);
-			merge(source, start, mid, end);
+			sort(s, start, mid);
+			sort(s, mid + 1, end);
+			merge(s, start, mid, end);
 		}
 	}
 
@@ -109,96 +108,11 @@ public class MergeSort {
 		}
 	}
 
-	/**
-	 * 归并排序的递归实现
-	 * 
-	 * @param sourceArray
-	 * @return
-	 */
-	public static int[] sortOld(int[] sourceArray) {
-		if (sourceArray.length <= 1) {
-			return sourceArray;
-		}
-		count++;
-		int mid = sourceArray.length / 2;
-		int[] left = new int[mid];
-		for (int i = 0; i < mid; i++) {
-			left[i] = sourceArray[i];
-		}
-		// 注意余数的情况
-		int[] right = new int[sourceArray.length - mid];
-		for (int i = 0; i + mid < sourceArray.length; i++) {
-			right[i] = sourceArray[mid + i];
-		}
-		left = sortOld(left);
-		right = sortOld(right);
-		return mergeOld(left, right);
+
+
+	@Override
+	public int[] doSort(int[] sourceArray) {
+		sort(sourceArray,0,sourceArray.length-1);
+		return sourceArray;
 	}
-
-	public static int[] mergeOld(int[] left, int[] right) {
-		int[] result = new int[left.length + right.length];
-		int leftIndex = 0;
-		int rightIndex = 0;
-		int resultIndex = 0;
-		while (leftIndex <= left.length && rightIndex <= right.length) {
-			// 某一组数据已经比较完毕,则把另一组剩下的数据直接放到结果集合中,因为未比较的元素都比前一组大，并且是有序的
-			if (leftIndex == left.length) {
-				while (resultIndex < result.length) {
-					result[resultIndex] = right[rightIndex];
-					resultIndex++;
-					rightIndex++;
-				}
-				break;
-			} else if (rightIndex == right.length) {
-				while (resultIndex < result.length) {
-					result[resultIndex] = left[leftIndex];
-					resultIndex++;
-					leftIndex++;
-				}
-				break;
-			}
-			// 将较小的数字放入返回结果集中
-			if (left[leftIndex] < right[rightIndex]) {
-				result[resultIndex] = left[leftIndex];
-				leftIndex++;
-				resultIndex++;
-			} else {
-				result[resultIndex] = right[rightIndex];
-				rightIndex++;
-				resultIndex++;
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * The main method.
-	 *
-	 * @param args
-	 *            the args
-	 */
-	public static void main(String[] args) {
-		// int[] left = new int[]{1,2,3,8,10};
-		// int[] right = new int[]{3,4,5,7,8,9};
-		// int[] result = merge(left, right);
-		// for (int i = 0; i < result.length; i++) {
-		// System.out.print(result[i]+",");
-		// }
-		// int[] sourceArray = new int[] { 8, 7, 6, 5, 4, 3, 2, 1,
-		// 1,2,3,4,5,6,7,8};
-		// int[] targetArray = MergeSort.mergeSortRecursive(sourceArray);
-		// for (int i = 0; i < targetArray.length; i++) {
-		// System.out.print(targetArray[i]+",");
-		// }
-		// System.out.println("程序体执行总次数:"+MergeSort.count);
-		// int[] sourceArray = new int[] { 8, 7, 6, 5, 4, 3, 2, 1,
-		// 1,2,3,4,5,6,7,8};
-		int[] sourceArray = new int[] { 3, 2, 1 };
-		sort(sourceArray, 0, sourceArray.length - 1);
-		for (int i = 0; i < sourceArray.length; i++) {
-			System.out.println(sourceArray[i]);
-		}
-
-	}
-
 }

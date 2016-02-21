@@ -12,9 +12,9 @@ import core.algorithm.sort.Sort;
  */
 public class CockTailSort implements Sort  {
 
-	@Override
-	public int[] sort(int[] sourceArray) {
-		return null;
-	}
 
+	@Override
+	public int[] doSort(int[] sourceArray) {
+		return new int[0];
+	}
 }

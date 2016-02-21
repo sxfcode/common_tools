@@ -17,7 +17,7 @@ import core.algorithm.sort.SortUtils;
  * @version 1.0
  * @since jdk 1.6,common_tools 1.0
  */
-public class QuickSort  {
+public class QuickSort implements Sort {
 	
 	public static void sort(int[] s,int start,int end){
 		if (start==end) {
@@ -46,75 +46,13 @@ public class QuickSort  {
 		if ((i+1)<end) {
 			sort(s,i+1,end);	
 		}
-		
-		
+
 	}
 	
-	
-	public int[] sortOld(int[] sourceArray) {
-		QuickSort.quickSortInReOld(sourceArray,0,sourceArray.length-1);
+
+	@Override
+	public int[] doSort(int[] sourceArray) {
+		sort(sourceArray,0,sourceArray.length-1);
 		return sourceArray;
 	}
-	
-	
-	/**
-	 * 快速排序.(递归方式实现)
-	 *
-	 * @param sourceArray comments
-	 * @param start comments
-	 * @param end comments
-	 */
-	public static void quickSortInReOld(int[] sourceArray,int start,int end){
-		int i= start;
-		int j = end;
-		// 从i++和j--两个方向搜索不满足条件的值并交换  *
-		while (i<j) {
-			// 处理右侧数据
-			while(i<j&&sourceArray[i]<=sourceArray[j]){
-				j--;
-			}
-			// 交换数据
-			if(i<j){
-				int temp =sourceArray[i];
-				sourceArray[i] = sourceArray[j];
-				sourceArray[j] = temp;
-			}
-			// 处理左侧数据
-			while(i<j&&sourceArray[i]<=sourceArray[j]){
-				i++;
-			}
-			// 交换数据
-			if(i<j){
-				int temp =sourceArray[i];
-				sourceArray[i] = sourceArray[j];
-				sourceArray[j] = temp;
-			}
-		}
-		
-		if(i-start>1){
-			quickSortInReOld(sourceArray,start,i);
-		}
-		if(end-i>1){
-			quickSortInReOld(sourceArray,i+1,end);
-		}
-	}
-	
-	
-	
-
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
-	public static void main(String[] args) {
-		int[] sourceArray = new int[]{6,1,3,5,7,1,2,6};
-		//QuickSort.quickSortInRe(sourceArray,0,sourceArray.length-1);
-		sort(sourceArray,0,sourceArray.length-1);
-		
-		for (int i = 0; i < sourceArray.length; i++) {
-			System.out.println(sourceArray[i]);
-		}
-	}
-
 }

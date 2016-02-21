@@ -25,10 +25,6 @@ import core.algorithm.sort.Sort;
  */
 public class ComSort implements Sort {
 	
-	public int[] sort(int[] sourceArray) {
-		return ComSort.combSort(sourceArray);
-	}
-
 	/**
 	 * 梳排序.
 	 *
@@ -64,4 +60,8 @@ public class ComSort implements Sort {
 		return sourceArray;
 	}
 
+	@Override
+	public int[] doSort(int[] sourceArray) {
+		return new int[0];
+	}
 }

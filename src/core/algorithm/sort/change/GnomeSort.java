@@ -20,59 +20,31 @@ import core.algorithm.sort.SortUtils;
  */
 public class GnomeSort implements Sort {
 	
-	public int[] sort(int[] sourceArray) {
-		return GnomeSort.gnomeSort(sourceArray);
-	}
-
-	 
 	/**
 	 * 类似插入排序，向已经排好序的数组中插入元素，直到找到一个坑，能够刚好让该元素小于后一个元素，大于前一个元素。
 	 *
-	 * @param sourceArray comments
+	 * @param s comments
 	 * @return int[]
 	 */
-	public static int[] gnomeSort(int[] sourceArray) {
+	public static int[] sort(int[] s) {
 		int i = 0;
-		while (i<sourceArray.length) {
+		while (i<s.length) {
 			// 正确的顺序，园丁往前走,注意等于号
-			if(i==0||sourceArray[i-1]<=sourceArray[i]){
+			if(i==0||s[i-1]<=s[i]){
 				i++;
 			}else{
 				// 错误的顺序，园丁交换花盆位置，并后退一步，继续比较。
-				SortUtils.swap(sourceArray, i-1, i);
+				SortUtils.swap(s, i-1, i);
 				i--;
 			}
 		}
-		return sourceArray;
-	}
-	
-	@SuppressWarnings("static-access")
-	public static int[] gnomeSortShow(int[] sourceArray) {
-		int i = 0;
-		while (i<sourceArray.length) {
-			System.out.println("i:"+i);
-			// 正确的顺序，园丁往前走,注意等于号
-			if(i==0||sourceArray[i-1]<=sourceArray[i]){
-				i++;
-			}else{
-				// 错误的顺序，园丁交换花盆位置，并后退一步，继续比较。
-				int temp = sourceArray[i-1];
-				sourceArray[i-1]= sourceArray[i];
-				sourceArray[i] = temp;
-				i--;
-			}
-			System.out.println("当前数组:");
-			for (int j = 0; j < sourceArray.length; j++) {
-				System.out.print(sourceArray[j]+",");
-			}
-			System.out.println();
-			try {
-				Thread.currentThread().sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		return sourceArray;
+		return s;
 	}
 
+
+	@Override
+	public int[] doSort(int[] sourceArray) {
+		sort(sourceArray);
+		return sourceArray;
+	}
 }

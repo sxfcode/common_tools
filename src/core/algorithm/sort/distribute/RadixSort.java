@@ -31,7 +31,7 @@ public class RadixSort implements Sort{
 	 * Sort.
 	 *
 	 * @param s the s
-	 * @param n the n  n 数组中位数最大的数字。
+	 * @param n the n  n 数组中位数最大的数字的位数。
 	 */
 	public static void sort(int[] s,int n){
 		// 当前处理位数
@@ -68,97 +68,19 @@ public class RadixSort implements Sort{
 		}
 		
 	}
-	
 
-	
-	
-	/**
-	 * 基数排序(桶排序)，
-	 * 
-	 * 空间复杂度 11n
-	 * 时间复杂度
-	 * 
-	 * 在已知最大数字位数的情况下，能有效减少排序时间。
-	 * 注意，暂不考虑负数的情况,并且本方法会改变源数组，注意并发。
-	 * LSD方式，从低位到高位的排序.
-	 *
-	 * @param sourceArray comments 源数组
-	 * @param maxWidth comments 数组中最大数字的位数，例如，数组中最大数字为100，100为3位数，则传3。
-	 * 若不知道最大数，则传-1即可。
-	 * @return the int[]
-	 */
-	public static int[] sortOld(int[] sourceArray,int maxWidth){
-		// step 1:确定最大数。
-		// 计算最大数的位数start.
-		int max = 1; // 
-		if (maxWidth==-1) {
-			int temp = sourceArray[0];
-			for (int i = 0; i < sourceArray.length; i++) {
-				if(sourceArray[i]>temp){
-					temp = sourceArray[i];
-				}
-			}
-			maxWidth = (""+temp).length();
-		}
-		// 计算最大数。比数组中的数字大1位，例如数组中最大数是99，则max=100.
-		while (maxWidth>0) {
-			max = max*10;
-			maxWidth--;
-		}
-		// 计算最大数的位数end.
-		// step 2:初始化变量
-		int sourceIndex = 0;// 源数组索引
-		int n = 1; // 代表位数1,10,100
-		int length = sourceArray.length;
-		int[][] bucket = new int[10][length];// 用来排序的桶。这里采用常规的0到9，10个桶。
-		int[] bucketCounter = new int[10];// 每个桶里存放的数字的个数,默认初始化为0.
-		// 初始化
-		for (int i = 0; i < bucketCounter.length; i++) {
-			bucketCounter[i]=0;
-		}
-		// step 3:开始桶排序
-		// 从低位开始循环所有数位。利用桶的编号本身代表了一种排序。
-		while(n<max){
-			// step 3.1:根据余数，将数据放在不同的桶里边。
-			for (int i = 0; i < sourceArray.length; i++) {
-				int digit = (sourceArray[i]/n)%10;
-				bucket[digit][bucketCounter[digit]]= sourceArray[i];
-				bucketCounter[digit]++;
-			}
-			// step 3.2:遍历桶，用排序后的数据覆盖源数组。
-			for (int i = 0; i < bucketCounter.length; i++) {
-				if (bucketCounter[i]>0) {
-					for (int j = 0; j < bucketCounter[i]; j++) {
-						sourceArray[sourceIndex] = bucket[i][j];
-						sourceIndex++;
-					}
-					// 重置计数器
-					bucketCounter[i] = 0;
-				}
-			}
-			n = 10*n;
-			// 重置计数器
-			sourceIndex = 0;
-			// step 3.3 重复3.1和3.2操作
-		}
-		return sourceArray;
-	}
-	
-	
-	
-	
-	public static void main(String[] args) {
-		int[] sourceArray = new int[]{1,200,10,25,123,42,91};
-		sort(sourceArray, 3);
-		for (int i = 0; i < sourceArray.length; i++) {
-			System.out.println(sourceArray[i]);
-			
-		}
-	}
 
 
 	@Override
-	public int[] sort(int[] sourceArray) {
-		return new int[0];
+	public int[] doSort(int[] sourceArray) {
+		int maxN = 0;
+		for (int temp :sourceArray) {
+			String tempS = temp+"";
+			if(tempS.length()>maxN){
+				maxN =tempS.length();
+			}
+		}
+		sort(sourceArray,maxN);
+		return sourceArray;
 	}
 }

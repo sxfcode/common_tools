@@ -66,4 +66,8 @@ public class ShellSort implements Sort  {
 		return sourceArray;
 	}
 
-} 	 	
+	@Override
+	public int[] doSort(int[] sourceArray) {
+		return new int[0];
+	}
+}

@@ -1,6 +1,7 @@
 package core.algorithm.sort.select;
 
 import core.algorithm.sort.Sort;
+import core.algorithm.sort.SortUtils;
 
 /**
  * The Class SelectSort.
@@ -22,43 +23,40 @@ import core.algorithm.sort.Sort;
  * @since jdk 1.6,common_tools 1.0
  */
 public class SelectSort implements Sort{
-	
-	public int[] sort(int[] sourceArray) {
-		return SelectSort.selectSort(sourceArray);
-	}
-	
 
 	/**
 	 * 选择排序.
 	 *空间复杂度n
-	 * @param sourceArray comments
+	 * @param s comments
 	 * @return int[]
 	 */
-	public static int[] selectSort(int[] sourceArray){
+	public static int[] sort(int[] s){
 		// 标记将要进行数据交换的元素,从最后一个开始进行数据交换
-		int flag = sourceArray.length -1;
+		int flag = s.length -1;
 		// 最大数据的索引为max，假定最后一个元素最大
-		int max = sourceArray.length -1;
+		int max = s.length -1;
 		// step 1：从大到小推进。
 		while (flag>0) {
 			// step 2:从未排序的元素中找到最大的元素,并记录索引。检查索引为0到flag之间的中最大的元素，查找完毕后，将其与索引为flag的元素交换位置。
 			for (int i = 0; i <= flag ; i++) {
 				//第i个元素大于当前的最大的元素，则将最大元素索引修改为i元素
-				if(sourceArray[i]>sourceArray[max]){
+				if(s[i]>s[max]){
 					max = i;
 				}
 			}
 			// step 3:交换最大值与标记元素
-			int temp = sourceArray[flag];
-			sourceArray[flag] = sourceArray[max]; 
-			sourceArray[max] = temp;
+			SortUtils.swap(s,flag,max);
 			// step 4:重置标记
 			flag--;
 			max = flag;
 		}
-		return sourceArray;
+		return s;
 	}
 
-	
 
+	@Override
+	public int[] doSort(int[] sourceArray) {
+		sort(sourceArray);
+		return sourceArray;
+	}
 }

@@ -27,41 +27,42 @@ import core.algorithm.sort.SortUtils;
  */
 public class OddEvenSort implements Sort {
 	
-	public int[] sort(int[] sourceArray) {
-		return OddEvenSort.oddEvenSort(sourceArray);
-	}
-
 	/**
-	 * oddEvenSort.
 	 *
-	 * @param sourceArray comments
-	 * @return int[]
-	 */
-	public static int[] oddEvenSort(int[] sourceArray){
+	 * @param s
+	 * @return
+     */
+	public static int[] sort(int[] s){
 		//是否已经排序完成
 		boolean sorted = false;
 		while (!sorted) {
 			sorted = true;
-			for (int i = 0; i < sourceArray.length&&(i+1<sourceArray.length); i=i+2) {
+			for (int i = 0; i < s.length&&(i+1<s.length); i=i+2) {
 				// 比较相邻元素
-				if(sourceArray[i]>sourceArray[i+1]){
+				if(s[i]>s[i+1]){
 					// 交换相邻元素
-					SortUtils.swap(sourceArray, i, i+1);
+					SortUtils.swap(s, i, i+1);
 					// 如果发生交换，则认为整个排序过程尚未完成。
 					sorted = false;
 				}
 			}
-			for (int i = 1; i < sourceArray.length&&(i+1<sourceArray.length); i=i+2) {
+			for (int i = 1; i < s.length&&(i+1<s.length); i=i+2) {
 				// 比较相邻元素
-				if(sourceArray[i]>sourceArray[i+1]){
+				if(s[i]>s[i+1]){
 					// 交换相邻元素
-					SortUtils.swap(sourceArray, i, i+1);
+					SortUtils.swap(s, i, i+1);
 					// 如果发生交换，则认为整个排序过程尚未完成。
 					sorted = false;
 				}
 			}
 		}
-		return sourceArray;
+		return s;
 	}
 
+
+	@Override
+	public int[] doSort(int[] sourceArray) {
+		sort(sourceArray);
+		return sourceArray;
+	}
 }

@@ -50,36 +50,24 @@ import core.algorithm.sort.SortUtils;
  */
 public class InsertSort implements Sort{
 	
-
-
 	/**
 	 * 插入排序
 	 * (节省空间的算法,在同一数组上进行排序)
 	 * 空间复杂度 O(n)
 	 * 时间复杂度 
 	 */
-	public int[] sort(int[] src) {
+	public static int[] sort(int[] src) {
 	     for (int i=0; i<src.length; i++)
              for (int j=i; j>0 && src[j-1]>src[j]; j--)
             	 SortUtils.swap(src, j, j-1);
 		return src;
 	}
-	
 
-	
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
-	public static void main(String[] args) {
-		int[] sr = new int[]{3,4,2};
-		InsertSort is = new InsertSort();
-		is.sort(sr);
-		for (int i = 0; i < sr.length; i++) {
-			System.out.println(sr[i]);
-		}
-		System.out.println(1/2);
-		
+
+
+	@Override
+	public int[] doSort(int[] sourceArray) {
+		sort(sourceArray);
+		return sourceArray;
 	}
 }

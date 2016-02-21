@@ -12,6 +12,7 @@ import core.algorithm.sort.change.QuickSort;
 import core.algorithm.sort.distribute.RadixSort;
 import core.algorithm.sort.insert.InsertSort;
 import core.algorithm.sort.insert.ShellSort;
+import core.algorithm.sort.merge.MergeSort;
 import core.algorithm.sort.select.SelectSort;
 
 /**
@@ -52,28 +53,32 @@ public class ZExample {
 		
 		// step 2:添加排序方式
 		List<Sort> sortMethods = new ArrayList<Sort>();
-		sortMethods.add(new GnomeSort());
-		
-		
+		sortMethods.add(new MergeSort());
+		sortMethods.add(new QuickSort());
+
 		sortMethods.add(new BubbleSort());
-		sortMethods.add(new CockTailSort());
-		sortMethods.add(new ComSort());
 		sortMethods.add(new GnomeSort());
 		sortMethods.add(new OddEvenSort());
-		//sortMethods.add(new QuickSort());
+		sortMethods.add(new InsertSort());
+		sortMethods.add(new SelectSort());
 		sortMethods.add(new RadixSort());
 
-		sortMethods.add(new InsertSort());
-		sortMethods.add(new ShellSort());
-		sortMethods.add(new SelectSort());
+//
+//		sortMethods.add(new CockTailSort());
+//		sortMethods.add(new ComSort());
+//
+//		sortMethods.add(new ShellSort());
+//
 
 		// 调用不同的排序方法对数组进行排序
 		for (Sort sort : sortMethods) {
 			System.out.println("====================");
 			System.out.println("当前执行算法:" + sort.toString());
 			for (int i= 0; i < list.size(); i++) {
+				int[] source = list.get(i).clone();
+
 				// 对测试数组，进行排序
-				int[] targetArray = sort.sort(list.get(i));
+				int[] targetArray = sort.doSort(source);
 				if (targetArray == null) {
 					System.out.println("发现未处理算法" + sort.toString());
 					break;

@@ -10,12 +10,6 @@ package core.algorithm.sort;
  * @since jdk 1.6,common_tools_trunk 1.0
  */
 public interface Sort {
-	
-	/**
-	 * 对源数组进行排序，输出结果为排序后的数组.
-	 *
-	 * @param sourceArray 待排序原始数据
-	 * @return int[] 排序完成后的数据
-	 */
-	public int[] sort(int[] sourceArray);
+
+	public int[] doSort(int[] sourceArray);
 }
