@@ -20,10 +20,7 @@ import core.algorithm.sort.SortUtils;
 public class QuickSort implements Sort {
 	
 	public static void sort(int[] s,int start,int end){
-		if (start==end) {
-			return;
-		}
-		if ((end-start)==1) {
+		if ((end-start)<=1) {
 			if (s[start]>s[end]) {
 				SortUtils.swap(s, start,end);
 			}

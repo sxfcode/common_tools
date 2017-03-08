@@ -3,17 +3,7 @@ package core.algorithm.sort;
 import java.util.ArrayList;
 import java.util.List;
 
-import core.algorithm.sort.change.BubbleSort;
-import core.algorithm.sort.change.CockTailSort;
-import core.algorithm.sort.change.ComSort;
-import core.algorithm.sort.change.GnomeSort;
-import core.algorithm.sort.change.OddEvenSort;
-import core.algorithm.sort.change.QuickSort;
-import core.algorithm.sort.distribute.RadixSort;
-import core.algorithm.sort.insert.InsertSort;
-import core.algorithm.sort.insert.ShellSort;
-import core.algorithm.sort.merge.MergeSort;
-import core.algorithm.sort.select.SelectSort;
+import core.algorithm.sort.select.HeapSort;
 
 /**
  * The Class ZExample.
@@ -53,15 +43,16 @@ public class ZExample {
 		
 		// step 2:添加排序方式
 		List<Sort> sortMethods = new ArrayList<Sort>();
-		sortMethods.add(new MergeSort());
-		sortMethods.add(new QuickSort());
-
-		sortMethods.add(new BubbleSort());
-		sortMethods.add(new GnomeSort());
-		sortMethods.add(new OddEvenSort());
-		sortMethods.add(new InsertSort());
-		sortMethods.add(new SelectSort());
-		sortMethods.add(new RadixSort());
+		sortMethods.add(new HeapSort());
+//		sortMethods.add(new MergeSort());
+//		sortMethods.add(new QuickSort());
+//
+//		sortMethods.add(new BubbleSort());
+//		sortMethods.add(new GnomeSort());
+//		sortMethods.add(new OddEvenSort());
+//		sortMethods.add(new InsertSort());
+//		sortMethods.add(new SelectSort());
+//		sortMethods.add(new RadixSort());
 
 //
 //		sortMethods.add(new CockTailSort());
